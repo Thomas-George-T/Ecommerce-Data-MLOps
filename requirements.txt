@@ -5,4 +5,3 @@ pytest
 ipykernel
 mlflow
 requests
-zipfile
