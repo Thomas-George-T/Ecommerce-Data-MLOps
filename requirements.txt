@@ -5,3 +5,4 @@ pytest
 ipykernel
 mlflow
 requests
+pytest-mock
