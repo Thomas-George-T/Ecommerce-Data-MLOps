@@ -24,6 +24,10 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
+    - name: Run linting tests
+      run: pytest --pylint
+      continue-on-error: true
+
     - name: Run tests and generate XML report
       run: pytest --junitxml=pytest-report.xml
       continue-on-error: false

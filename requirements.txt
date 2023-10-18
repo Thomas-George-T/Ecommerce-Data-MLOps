@@ -6,3 +6,4 @@ ipykernel
 mlflow
 requests
 pytest-mock
+pytest-pylint

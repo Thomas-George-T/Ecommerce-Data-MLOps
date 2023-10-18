@@ -3,3 +3,12 @@
 
 # MLOps-Ecomm
 Work in Progress
+
+# Changelog
+
+- Added GitHub Actions with pytest and pylint on push for all branches
+- Run the following commands locally before pushing to ensure build success
+	```
+	pytest --pylint
+	pytest 
+	```
