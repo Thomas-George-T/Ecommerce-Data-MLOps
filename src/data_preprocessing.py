@@ -36,3 +36,30 @@ def drop_duplicates(df):
     df = df.drop_duplicates(subset=columns_to_check)
     
     return df
+
+import numpy as np
+
+def add_transaction_status(df):
+    """
+    Add a new column 'transaction_status' to the dataframe. 
+    The column indicates whether the transaction was 'Cancelled' or 'Completed' 
+    based on the 'InvoiceNo' column.
+    
+    Parameters:
+    - Input dataframe.
+    
+    Return:
+    - Dataframe with the new 'Transaction_Status' column added.
+    
+    :raises KeyError: If the 'InvoiceNo' column doesn't exist in the dataframe.
+    """
+    
+    # Check if 'InvoiceNo' column exists
+    if 'InvoiceNo' not in df.columns:
+        raise KeyError("The input dataframe does not contain an 'InvoiceNo' column.")
+    
+    # Add the 'Transaction_Status' column
+    df['transaction_status'] = np.where(df['InvoiceNo'].astype(str).str.startswith('C'), 
+                                        'Cancelled', 'Completed')
+    
+    return df
