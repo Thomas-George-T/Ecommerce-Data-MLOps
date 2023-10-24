@@ -31,6 +31,6 @@ def load_ecommerce_data(path=None, encoding="ISO-8859-1"):
     
     if data.empty:
         print(f"The file {path} is empty!")
-        raise EmptyDataError(f"No data found in {path}!")
+        raise ValueError("The loaded dataframe is empty.")
     
     return data
