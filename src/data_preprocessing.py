@@ -20,3 +20,19 @@ def remove_and_check_missing(df):
     return df
 
 
+def drop_duplicates(df):
+    """
+    Drop duplicates from the dataframe based on the columns: 
+    'InvoiceNo', 'StockCode', 'Description', 'CustomerID', 'Quantity'.
+    
+    Parameters:
+    - df: Input dataframe.
+    
+    Return:
+    - Dataframe with duplicates removed.
+    """
+    
+    columns_to_check = ['InvoiceNo', 'StockCode', 'Description', 'CustomerID', 'Quantity']
+    df = df.drop_duplicates(subset=columns_to_check)
+    
+    return df
