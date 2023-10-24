@@ -1,5 +1,7 @@
 import pandas as pd
+import numpy as np
 
+# ======================== Missing Values ========================
 def remove_and_check_missing(df):
     """
     Remove rows with missing values in 'CustomerID' and 'Description' columns.
@@ -19,7 +21,7 @@ def remove_and_check_missing(df):
     
     return df
 
-
+# ======================== Drop Duplicates ========================
 def drop_duplicates(df):
     """
     Drop duplicates from the dataframe based on the columns: 
@@ -37,8 +39,7 @@ def drop_duplicates(df):
     
     return df
 
-import numpy as np
-
+# ======================== Adding Transaction Status column ========================
 def add_transaction_status(df):
     """
     Add a new column 'transaction_status' to the dataframe. 
@@ -61,5 +62,23 @@ def add_transaction_status(df):
     # Add the 'Transaction_Status' column
     df['transaction_status'] = np.where(df['InvoiceNo'].astype(str).str.startswith('C'), 
                                         'Cancelled', 'Completed')
+    
+    return df
+
+# ======================== Remove Anomaly codes ========================
+def remove_anomalous_stock_codes(df):
+    """
+    Removes rows with stock codes that have 0 or 1 numeric characters.
+
+    :param df: Input dataframe.
+    :return: Dataframe with anomalous stock codes removed.
+    """
+    
+    # Finding the stock codes with 0 and 1 numeric characters
+    unique_stock_codes = df['StockCode'].unique()
+    anomalous_stock_codes = [code for code in unique_stock_codes if sum(c.isdigit() for c in str(code)) in (0, 1)]
+    
+    # Removing rows with these anomalous stock codes
+    df = df[~df['StockCode'].isin(anomalous_stock_codes)]
     
     return df
