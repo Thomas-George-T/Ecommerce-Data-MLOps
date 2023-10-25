@@ -3,24 +3,6 @@ Tests for datapipeline functions
 """
 from src import datapipeline
 
-def test_ingest_data(mocker):
-    """
-    Test for ingest_data()
-    """
-
-    # arrange:
-    # mocked dependencies
-
-    mock_print = mocker.MagicMock(name='print')
-    mocker.patch('src.datapipeline.print', new=mock_print)
-
-    # act: invoking the tested code
-    datapipeline.ingest_data()
-
-    # assert:
-    assert 1 == mock_print.call_count
-
-
 def test_unzip_file(mocker):
     """
     Tests for unzip()

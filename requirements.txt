@@ -7,3 +7,4 @@ mlflow
 requests
 pytest-mock
 pytest-pylint
+requests-mock
