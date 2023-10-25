@@ -1,36 +1,41 @@
 import os
-from pathlib import Path
+import pandas as pd
+import pickle
 
 
-def load_ecommerce_data(path=None, encoding="ISO-8859-1"):
+def load_data(pickle_path="../data/raw_data.pkl", csv_path="../data/data.csv"):
     """
-    Load the E-commerce dataset.
+    Load the e-commerce dataset. 
+    First, try to load from the pickle file, if it doesn't exist, load from the CSV and then save it as a pickle for future use.
 
-    Parameters:
-    - path (str or Path): Path to the E-commerce CSV file. Default is set to the provided directory and file name.
-
-    Returns:
-    - pd.DataFrame: Loaded dataframe if the file exists and is not empty.
+    :param pickle_path: Path to the pickle file.
+    :param csv_path: Path to the CSV file.
+    :return: Loaded DataFrame.
     """
-    import pandas as pd
+    
+    # Check if pickle file exists
+    if os.path.exists(pickle_path):
+        with open(pickle_path, "rb") as file:
+            df = pickle.load(file)
+        return df
+    
+    # If pickle doesn't exist, load CSV
+    elif os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
 
-    # If no path provided, set default relative path
-    if path is None:
-        # Get the current directory (assuming this code is run from the src directory)
-        current_dir = Path(__file__).parent
-        # Create the relative path to the data directory
-        path = current_dir.joinpath('../data/data.csv').resolve()
+        # Save the data to pickle for future use
+        with open(pickle_path, "wb") as file:
+            pickle.dump(df, file)
+        
+        return df
+    
+    else:
+        error_message = f"No data found in the specified paths: {pickle_path} or {csv_path}"
+        print(error_message)
+        raise FileNotFoundError(error_message)
 
-    # Check if the file exists
-    if not os.path.exists(path):
-        print(f"The file {path} does not exist!")
-        raise FileNotFoundError(f"File {path} not found!")
-    
-    # Load the data to check if it's empty
-    data = pd.read_csv(path, encoding=encoding)
-    
-    if data.empty:
-        print(f"The file {path} is empty!")
-        raise ValueError("The loaded dataframe is empty.")
-    
-    return data
+
+
+
+
+
