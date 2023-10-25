@@ -7,16 +7,16 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Use the project directory to construct paths to other directories
 DEFAULT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'raw_data.pkl')
-DEFAULT_CSV_PATH = os.path.join(PROJECT_DIR, 'data', 'data.csv')
+DEFAULT_EXCEL_PATH = os.path.join(PROJECT_DIR, 'data', 'Online Retail.xlsx')
 
-def load_data(pickle_path=DEFAULT_PICKLE_PATH, csv_path=DEFAULT_CSV_PATH):
+def load_data(pickle_path=DEFAULT_PICKLE_PATH, excel_path=DEFAULT_EXCEL_PATH):
     """
     Load the e-commerce dataset. 
-    First, try to load from the pickle file. If it doesn't exist, load from the CSV.
+    First, try to load from the pickle file. If it doesn't exist, load from the excel file.
     Regardless of the source, save the loaded data as a pickle for future use and return the path to that pickle.
     
     :param pickle_path: Path to the pickle file.
-    :param csv_path: Path to the CSV file.
+    :param csv_path: Path to the Excel file.
     :return: Path to the saved pickle file.
     """
     
@@ -30,12 +30,13 @@ def load_data(pickle_path=DEFAULT_PICKLE_PATH, csv_path=DEFAULT_CSV_PATH):
         print(f"Data loaded successfully from {pickle_path}.")
     
     # If pickle doesn't exist, load CSV
-    elif os.path.exists(csv_path):
-        df = pd.read_csv(csv_path,  encoding="ISO-8859-1")
-        print(f"Data loaded from {csv_path}.")
+    elif os.path.exists(excel_path):
+        df = pd.read_excel(excel_path)
+        print(f"Data loaded from {excel_path}.")
+
 
     else:
-        error_message = f"No data found in the specified paths: {pickle_path} or {csv_path}"
+        error_message = f"No data found in the specified paths: {pickle_path} or {excel_path}"
         print(error_message)
         raise FileNotFoundError(error_message)
 
