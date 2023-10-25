@@ -1,2 +1,5 @@
 lab01
 .pytest_cache
+__pycache__/
+*.pyo
+*.pyc
