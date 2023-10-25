@@ -1,7 +1,7 @@
 [![Pytest](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml)
 
 
-# MLOps-Ecomm
+# Ecommerce Customer Segmentation MLOps
 Work in Progress
 
 # Changelog
