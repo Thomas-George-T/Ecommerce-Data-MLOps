@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+lab01
+.pytest_cache
+*.pyo
+*.pyc
 
 # C extensions
 *.so
@@ -62,4 +66,4 @@ maildir
 # Notebooks
 notebooks/
 
-.DS_Store
+*/.DS_Store/*
