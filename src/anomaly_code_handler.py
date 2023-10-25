@@ -2,7 +2,13 @@ import pandas as pd
 import pickle
 import os
 
-def handle_anomalous_codes(input_pickle_path="../data/after_transaction_status.pkl", output_pickle_path="../data/after_anomaly_code.pkl"):
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_transaction_status.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'after_anomaly_code.pkl')
+
+def handle_anomalous_codes(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
     Load the DataFrame from the input pickle, remove rows with stock codes that 
     have 0 or 1 numeric characters, then save the DataFrame back to a pickle and return its path.

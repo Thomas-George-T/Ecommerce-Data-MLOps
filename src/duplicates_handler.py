@@ -2,7 +2,13 @@ import pandas as pd
 import pickle
 import os
 
-def remove_duplicates(input_pickle_path="../data/after_missing_values.pkl", output_pickle_path="../data/after_duplicates.pkl"):
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'after_duplicates.pkl')
+
+def remove_duplicates(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
     Load the DataFrame from the input pickle, drop duplicates based on certain columns.
     Save the DataFrame back to a pickle and return its path.

@@ -3,7 +3,13 @@ import pickle
 import os
 import numpy as np
 
-def handle_transaction_status(input_pickle_path="../data/after_duplicates.pkl", output_pickle_path="../data/after_transaction_status.pkl"):
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_duplicates.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'after_transaction_status.pkl')
+
+def handle_transaction_status(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
     Load the DataFrame from the input pickle, add a 'transaction_status' column 
     to indicate whether the transaction was 'Cancelled' or 'Completed'. 

@@ -4,9 +4,11 @@ import pandas as pd
 import pickle
 from src.duplicates_handler import remove_duplicates
 
-# Setup constants
-INPUT_PICKLE_PATH = "../data/after_missing_values.pkl"
-OUTPUT_PICKLE_PATH = "../data/after_duplicates.pkl"
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'after_duplicates.pkl')
 
 def test_remove_duplicates_no_input_file():
     """

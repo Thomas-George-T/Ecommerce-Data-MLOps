@@ -3,9 +3,11 @@ import os
 import pickle
 from src.anomaly_code_handler import handle_anomalous_codes
 
-# Setup constants
-INPUT_PICKLE_PATH = "../data/after_transaction_status.pkl"
-OUTPUT_PICKLE_PATH = "../data/after_anomaly_code.pkl"
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_transaction_status.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'after_anomaly_code.pkl')
 
 def test_handle_anomalous_codes():
     """

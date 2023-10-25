@@ -1,12 +1,15 @@
 import pickle
 import pandas as pd
-
-# ======================== Missing Values ========================
-import pandas as pd
-import pickle
 import os
+# ======================== Missing Values ========================
 
-def handle_missing(input_pickle_path="../data/raw_data.pkl", output_pickle_path="../data/after_missing_values.pkl"):
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','raw_data.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+
+def handle_missing(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
     Load the DataFrame from the input pickle, remove rows with missing values in 'CustomerID' and 'Description' columns.
     Then, check if there are any missing values left in the dataframe.

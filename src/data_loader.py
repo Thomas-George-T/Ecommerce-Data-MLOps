@@ -2,13 +2,12 @@ import os
 import pandas as pd
 import pickle
 
+# Determine the absolute path of the project directory
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-import os
-import pandas as pd
-import pickle
-
-DEFAULT_PICKLE_PATH = "../data/raw_data.pkl"
-DEFAULT_CSV_PATH = "../data/data.csv"
+# Use the project directory to construct paths to other directories
+DEFAULT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed', 'raw_data.pkl')
+DEFAULT_CSV_PATH = os.path.join(PROJECT_DIR, 'data', 'data.csv')
 
 def load_data(pickle_path=DEFAULT_PICKLE_PATH, csv_path=DEFAULT_CSV_PATH):
     """
@@ -32,7 +31,7 @@ def load_data(pickle_path=DEFAULT_PICKLE_PATH, csv_path=DEFAULT_CSV_PATH):
     
     # If pickle doesn't exist, load CSV
     elif os.path.exists(csv_path):
-        df = pd.read_csv(csv_path)
+        df = pd.read_csv(csv_path,  encoding="ISO-8859-1")
         print(f"Data loaded from {csv_path}.")
 
     else:
