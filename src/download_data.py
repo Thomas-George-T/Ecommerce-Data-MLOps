@@ -1,9 +1,13 @@
 """
 Function to download and ingest the data file
 """
+import os
 import requests
 
 DEFAULT_FILE_URL = "https://archive.ics.uci.edu/static/public/352/online+retail.zip"
+
+# Set the root directory variable using a relative path
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 def ingest_data(file_url=DEFAULT_FILE_URL):
     """
@@ -17,13 +21,13 @@ def ingest_data(file_url=DEFAULT_FILE_URL):
     response = requests.get(file_url, timeout=30)
 
     # Path to store the zipfile
-    zipfile_path="data/data.zip"
+    zipfile_path=os.path.join(ROOT_DIR, 'data','data.zip')
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Save file to data
         with open(zipfile_path, "wb") as file:
             file.write(response.content)
-        print("File downloaded successfully. Zip file available under data folder")
+        print(f"File downloaded successfully. Zip file available under {zipfile_path}")
     else:
         print(f"Failed to download the file. Status code: {response.status_code}")
 
