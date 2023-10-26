@@ -3,6 +3,7 @@
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
 suggestion-mode=yes
+init-hook='import sys; sys.path.append("src")'
 
 [MESSAGES CONTROL]
 
