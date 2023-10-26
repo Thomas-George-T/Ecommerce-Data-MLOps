@@ -7,4 +7,5 @@ mlflow
 requests
 pytest-mock
 pytest-pylint
+openpyxl
 requests-mock
