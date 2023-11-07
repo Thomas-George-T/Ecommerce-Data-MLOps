@@ -24,7 +24,7 @@ This is a transnational data set which contains all the transactions occurring b
 ## Data Sources 
 The data is taken from [UCI repository](https://archive.ics.uci.edu/dataset/352/online+retail)
 
-# Installation Steps
+# Installation
 1. Clone repository onto the local machine
 2. Install the required dependencies
 ```python
@@ -38,7 +38,8 @@ This workflow will check for test cases available under `test` for the correspon
 Only on a successful build, the feature branches can be merged with the main.
 
 Before pushing code to GitHub, Run the following commands locally to ensure build success
-	```
-	pytest --pylint
-	pytest 
-	```
+
+```python
+pytest --pylint
+pytest 
+```
