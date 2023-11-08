@@ -19,8 +19,7 @@ def test_ingest_data(mocker):
     # act: invoking the tested code
     download_data.ingest_data(DEFAULT_FILE_URL)
     # assert: todo
-    assert 1 == mock_print.call_count
-
+    assert 2 == mock_print.call_count
 def test_ingest_data_successful_download():
     """
       Test for checking successful download of the file
