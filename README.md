@@ -49,12 +49,13 @@ pip install -r requirements.txt
 
 # GitHub Actions
 
-Added GitHub Actions on push for all branches including the feature** and main branches. On pushing a new commit, triggers a build involving pytest and pylint generating test reports as artefacts. 
-This workflow will check for test cases available under `test` for the corresponding codes in `src`. By using `pylint`, it also runs a formatting and code leaks tests ensuring that the codes are readable and well documented for future use.
-Only on a successful build, the feature branches can be merged with the main.
+GitHub Actions workflows are set on push for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
+The workflow will check for test cases available under `test` for the corresponding modules in `src`. By using `pylint`, it runs formatting and code leaks tests ensuring that the codes are readable, prevent potential vulnerabilities and be well documented for future use.
+
+Only on a successful build, the feature branches be merged with the main.
 
 ## Testing
-Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions by `Pylint` improves code quality. Making sure that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
+Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions given by `Pylint` improves code quality. Ensuring that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
 
 ```python
 pytest --pylint
