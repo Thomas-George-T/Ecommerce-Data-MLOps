@@ -49,15 +49,11 @@ This project uses `Python >= 3.10`. Please ensure that the correct version is in
 The steps for User installation are as follows:
 
 1. Clone repository onto the local machine
-2. Install the required dependencies
-```python
-pip install -r requirements.txt
-```
-3. From the root of the respository, build the image
+2. With Docker running, initialize the database
 ```docker
-docker-compose build --no-cache
+docker compose up airflow-init
 ```
-4. Run the docker compose
+3. Run airflow
 ```docker
 docker-compose up
 ```
@@ -71,14 +67,11 @@ Only on a successful build, the feature branches be merged with the main.
 
 # Docker
 
-
-1. Build the docker image from the Dockerfile
+1. With Docker running, initialize the database
 ```docker
 docker compose up airflow-init
-docker-compose build
 ```
-
-2. Run the docker compose
+2. Run airflow
 ```docker
 docker-compose up
 ```
