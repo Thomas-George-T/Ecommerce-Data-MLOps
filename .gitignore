@@ -67,3 +67,8 @@ maildir
 notebooks/
 
 */.DS_Store/*
+
+# sub-directories
+dags/data/*
+!dags/data/__init__.py
+logs
