@@ -18,6 +18,7 @@ In this project of clustering for customer segmentation, we will delve into the 
 
 # Dataset Information 
 This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail.The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers.
+
 ## Data Card
 - Size: 541909 rows × 8 columns
 - Data Types
@@ -37,26 +38,97 @@ This is a transnational data set which contains all the transactions occurring b
 The data is taken from [UCI repository](https://archive.ics.uci.edu/dataset/352/online+retail)
 
 # Installation
-This project uses `Python >= 3.10`. Please ensure that the correct version is installed on your device. This project also works on Windows, Linux and Mac. 
+This project uses `Python >= 3.10`. Please ensure that the correct version is installed on your device. This project also works on Windows, Linux and Mac.
 
+# Prerequisities
+1. git
+2. python=3.10
+3. docker daemon/desktop is running
+
+## User Installation
 The steps for User installation are as follows:
 
 1. Clone repository onto the local machine
-2. Install the required dependencies
+2. Install required dependencies
 ```python
 pip install -r requirements.txt
+```
+3. With Docker running, initialize the database
+```docker
+docker compose up airflow-init
+```
+4. Run airflow
+```docker
+docker-compose up
+```
+Wait until terminal outputs
+
+`app-airflow-webserver-1  | 127.0.0.1 - - [17/Feb/2023:09:34:29 +0000] "GET /health HTTP/1.1" 200 141 "-" "curl/7.74.0"`
+
+5. Visit localhost:8080 login with credentials
+
+```
+user:airflow2
+password:airflow2
+```
+6. Run the DAG by clicking on the play button on the right side of the window
+
+7. Stop docker containers
+```docker
+docker compose down
 ```
 
 # GitHub Actions
 
-Added GitHub Actions on push for all branches including the feature** and main branches. On pushing a new commit, triggers a build involving pytest and pylint generating test reports as artefacts. 
-This workflow will check for test cases available under `test` for the corresponding codes in `src`. By using `pylint`, it also runs a formatting and code leaks tests ensuring that the codes are readable and well documented for future use.
-Only on a successful build, the feature branches can be merged with the main.
+GitHub Actions workflows are set on push and on pull requests for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
+The workflow will check for test cases available under `test` for the corresponding modules in `src`. By using `pylint`, it runs formatting and code leaks tests ensuring that the codes are readable, prevent potential vulnerabilities and be well documented for future use.
+
+Only on a successful build, the feature branches be merged with the main.
+
+# Contributing / Development
 
 ## Testing
-Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions by `Pylint` improves code quality. Making sure that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
+Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions given by `Pylint` improves code quality. Ensuring that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
 
+To test for formatting and code leaks, run the following:
 ```python
 pytest --pylint
+```
+
+To running the test suites for the modules, run the following:
+```python
 pytest 
 ```
+## Airflow Dags
+
+### To make your Dags/Append Dag
+After your code is built successfully, copy them to `dags/src/`. Write your Python Operator in `airflow.py` under `dags/src/`.
+Set dependencies using the `>>` operator.
+
+After this step, we need to edit our `docker-compose.yaml` file
+
+## Docker
+
+Optional: If your code uses additional requirements, please edit `docker-compose.yaml`.
+Under Environment or as follows:
+
+```docker
+environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    # For backward compatibility, with Airflow <2.3
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
+    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- scikit-learn numpy pandas ipykernel mlflow requests openpyxl requests-mock apache-airflow apache-airflow-providers-celery apache-airflow-providers-common-sql apache-airflow-providers-ftp apache-airflow-providers-http apache-airflow-providers-imap apache-airflow-providers-sqlite Flask Flask-AppBuilder Flask-Babel Flask-Caching Flask-JWT-Extended Flask-Limiter Flask-Login Flask-Session Flask-SQLAlchemy Flask-WTF flower celery }
+```
+Add your packages to `_PIP_ADDITIONAL_REQUIREMENTS:` in the `docker-compose.yaml` file
+
+Next Step: `User Installation Step 3`. After this, Continue till Step 6.
+
+If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
