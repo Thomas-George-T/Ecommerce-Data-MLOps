@@ -55,7 +55,7 @@ pip install -r requirements.txt
 ```
 3. From the root of the respository, build the image
 ```docker
-docker-compose build
+docker-compose build --no-cache
 ```
 4. Run the docker compose
 ```docker
@@ -71,8 +71,10 @@ Only on a successful build, the feature branches be merged with the main.
 
 # Docker
 
+
 1. Build the docker image from the Dockerfile
 ```docker
+docker compose up airflow-init
 docker-compose build
 ```
 
