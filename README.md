@@ -49,13 +49,33 @@ This project uses `Python >= 3.10`. Please ensure that the correct version is in
 The steps for User installation are as follows:
 
 1. Clone repository onto the local machine
-2. With Docker running, initialize the database
+2. Install required dependencies
+```python
+pip install -r requirements.txt
+```
+3. With Docker running, initialize the database
 ```docker
 docker compose up airflow-init
 ```
-3. Run airflow
+4. Run airflow
 ```docker
 docker-compose up
+```
+Wait until terminal outputs
+
+`app-airflow-webserver-1  | 127.0.0.1 - - [17/Feb/2023:09:34:29 +0000] "GET /health HTTP/1.1" 200 141 "-" "curl/7.74.0"`
+
+5. Visit localhost:8080 login with credentials
+
+```
+user:airflow2
+password:airflow2
+```
+6. Run the DAG by clicking on the play button on the right side of the window
+
+7. Stop docker containers
+```docker
+docker compose down
 ```
 
 # GitHub Actions
@@ -65,16 +85,7 @@ The workflow will check for test cases available under `test` for the correspond
 
 Only on a successful build, the feature branches be merged with the main.
 
-# Docker
-
-1. With Docker running, initialize the database
-```docker
-docker compose up airflow-init
-```
-2. Run airflow
-```docker
-docker-compose up
-```
+# Contributing / Development
 
 ## Testing
 Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions given by `Pylint` improves code quality. Ensuring that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
@@ -88,3 +99,12 @@ To running the test suites for the modules, run the following:
 ```python
 pytest 
 ```
+## Airflow Dags
+
+### To make your Dags/Append Dag
+After your code is built successfully, copy them to `dags/src/`. Write your Python Operator in `airflow.py` under `dags/src/`.
+Set dependencies using the `>>` operator.
+
+After this step, Move onto the `User Installation Step 3`. Continue till Step 6.
+
+If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
