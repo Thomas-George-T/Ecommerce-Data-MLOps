@@ -20,6 +20,8 @@ def ingest_data(file_url=DEFAULT_FILE_URL):
     # Send an HTTP GET request to the URL
     response = requests.get(file_url, timeout=30)
 
+    print("Downloading Data")
+
     # Path to store the zipfile
     zipfile_path=os.path.join(ROOT_DIR, 'data','data.zip')
     # Check if the request was successful (status code 200)
