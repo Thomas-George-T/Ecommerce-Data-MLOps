@@ -8,10 +8,11 @@ import pickle
 # Determine the absolute path of the project directory
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','raw_data.pkl')
-OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_anomaly_code.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_cleaning_description.pkl')
 
-def clean_description(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
+def cleaning_description(input_pickle_path=INPUT_PICKLE_PATH,
+                            output_pickle_path=OUTPUT_PICKLE_PATH):
     """
     Load the DataFrame from the input pickle, 
     remove rows where the description cointains service related information
@@ -36,5 +37,3 @@ def clean_description(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OU
         pickle.dump(df, file)
     print(f"Data saved to {output_pickle_path}.")
     return output_pickle_path
-
-    

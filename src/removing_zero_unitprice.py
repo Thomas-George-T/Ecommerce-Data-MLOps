@@ -9,8 +9,9 @@ import pickle
 # Determine the absolute path of the project directory
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','raw_data.pkl')
-OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_cleaning_description.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data',
+                                'processed','after_removing_zero_unitprice.pkl')
 
 def removing_zero(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
@@ -26,7 +27,7 @@ def removing_zero(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT
     else:
         raise FileNotFoundError(f"No data found at the specified path: {input_pickle_path}")
 
-    df[df['UnitPrice']==0].describe()[['Quantity']]
+    df = df[df['UnitPrice'] > 0]
 
 
     with open(output_pickle_path, "wb") as file:

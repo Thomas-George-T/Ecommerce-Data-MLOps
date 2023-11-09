@@ -5,14 +5,16 @@ A module to detect and remove outliers
 
 import os
 import pickle
+from sklearn.ensemble import IsolationForest
 
 # Determine the absolute path of the project directory
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','raw_data.pkl')
-OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_values.pkl')
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed',' \
+                                after_removing_zero_unitprice.pkl')
+OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_outlier_treatment.pkl')
 
-def removing_zero(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
+def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
      Load the DataFrame from the input pickle, 
     detect and remove outliers
