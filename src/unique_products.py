@@ -35,6 +35,8 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
         unique_products_purchased = df.groupby('CustomerID')['StockCode'].nunique().reset_index()
         unique_products_purchased.rename(columns={'StockCode': 'Unique_Products_Purchased'},
         inplace=True)
+
+    if 'CustomerID' in unique_products_purchased.columns:
         customer_data = pd.merge(customer_data, unique_products_purchased, on='CustomerID')
 
     with open(output_pickle_file, "wb") as file:
