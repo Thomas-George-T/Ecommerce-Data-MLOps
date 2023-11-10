@@ -61,15 +61,17 @@ python --version
 docker run --rm "debian:bullseye-slim" bash -c 'numfmt --to iec $(echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE))))'
 ```
 
-**FOR WINDOWS: Create a file called .env in the same folder as `docker-compose.yaml` and set the user as follows:
+
+
+**FOR WINDOWS: Create a file called .env in the same folder as `docker-compose.yaml` and set the user as follows:**
 ```
 AIRFLOW_UID=50000
 ```
-If you get the following error
+**If you get the following error**
 ```
 ValueError: Unable to configure handler 'processor'
 ```
-Setting the user manually like above fixes it**
+**Setting the user manually like above fixes it**
 
 
 4. With Docker running, initialize the database. This step only has to be done once.
