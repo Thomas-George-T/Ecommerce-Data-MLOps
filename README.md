@@ -38,42 +38,49 @@ This is a transnational data set which contains all the transactions occurring b
 The data is taken from [UCI repository](https://archive.ics.uci.edu/dataset/352/online+retail)
 
 # Installation
-This project uses `Python >= 3.10`. Please ensure that the correct version is installed on your device. This project also works on Windows, Linux and Mac.
+This project uses `Python >= 3.8`. Please ensure that the correct version is installed on your device. This project also works on Windows, Linux and Mac.
 
 # Prerequisities
 1. git
-2. python=3.10
+2. python>=3.8
 3. docker daemon/desktop is running
 
 ## User Installation
 The steps for User installation are as follows:
 
 1. Clone repository onto the local machine
-2. Install required dependencies
-```python
-pip install -r requirements.txt
 ```
-3. With Docker running, initialize the database
+git clone https://github.com/Thomas-George-T/Ecommerce-Data-MLOps.git
+```
+2. Check python version  >= 3.8
+```python
+python --version
+```
+3. Check if you have enough memory
+```docker
+docker run --rm "debian:bullseye-slim" bash -c 'numfmt --to iec $(echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE))))'
+```
+4. With Docker running, initialize the database. This step only has to be done once.
 ```docker
 docker compose up airflow-init
 ```
-4. Run airflow
+5. Run airflow
 ```docker
 docker-compose up
 ```
-Wait until terminal outputs
+Wait until terminal outputs something similar to
 
 `app-airflow-webserver-1  | 127.0.0.1 - - [17/Feb/2023:09:34:29 +0000] "GET /health HTTP/1.1" 200 141 "-" "curl/7.74.0"`
 
-5. Visit localhost:8080 login with credentials
+6. Visit localhost:8080 login with credentials
 
 ```
 user:airflow2
 password:airflow2
 ```
-6. Run the DAG by clicking on the play button on the right side of the window
+7. Run the DAG by clicking on the play button on the right side of the window
 
-7. Stop docker containers
+8. Stop docker containers
 ```docker
 docker compose down
 ```
@@ -85,7 +92,27 @@ The workflow will check for test cases available under `test` for the correspond
 
 Only on a successful build, the feature branches be merged with the main.
 
-# Contributing / Development
+# Docker and Airflow
+The `docker-compose.yaml` file contains the code neccessary to run Airflow. Through the use of Docker and containerization, we are able to ship our datapipeline with the required dependencies installed. This makes it platform indepedent, whether it is windows, mac or linux, our data pipeline should run smooth.
+
+# Data Pipeline
+
+Our data pipeline is modularized right from data ingestion to preprocessing to make our data ready for modeling. It is made sure that every module functions as expected by following Test Driven Development (TDD). This is achieved through enforcing tests for every module. 
+
+We utilize Apache Airflow for our pipeline. We create a DAG with our modules
+
+(DAG Image goes here)
+
+(1 liner about all our modules)
+
+</hr>
+
+# Contributing / Development Guide
+
+Before developing our code, we should install the required dependencies
+```python
+pip install -r requirements.txt
+```
 
 ## Testing
 Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions given by `Pylint` improves code quality. Ensuring that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
@@ -109,7 +136,7 @@ After this step, we need to edit our `docker-compose.yaml` file
 
 ## Docker
 
-Optional: If your code uses additional requirements, please edit `docker-compose.yaml`.
+Additional: If your code uses additional requirements, please edit `docker-compose.yaml`.
 Under Environment or as follows:
 
 ```docker
@@ -129,9 +156,12 @@ environment:
 ```
 Add your packages to `_PIP_ADDITIONAL_REQUIREMENTS:` in the `docker-compose.yaml` file
 
-Next Step: `User Installation Step 3`. After this, Continue till Step 6.
+Next Step is to initialize the airflow database the first time as shown in `User Installation Step 4`. After this, Continue DAG development till Step 8.
 
 If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
+
+
+</hr>
 
 # Project Components
 
@@ -151,3 +181,4 @@ In this phase, the dataset undergoes various cleaning and preprocessing steps to
 - `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
 
 Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
+
