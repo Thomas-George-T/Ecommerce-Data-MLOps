@@ -15,43 +15,53 @@ from prompt_toolkit.shortcuts import yes_no_dialog
 sns.set_style('whitegrid')
 
 #Defining the Defaults 
-PROJECT_DIR = Path("Ecommerce-Data-MLOps").resolve()
-config_path = os.path.join(PROJECT_DIR, 'config', "config_feature_processing.json")
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+config_path = os.path.join(PROJECT_DIR,"config","config_feature_processing.json")
 with open(config_path, "r") as json_file:
-    corr_config = json.load(json_file)
+    corr_config = json.load(json_file).get("correlation_analyzer")
 
 #Selected columns for Standard are taken from config file for 'feature_processing'
-f = corr_config.get("correlation_analyzer").get("file_path")
-drop_cols = corr_config.get("correlation_analyzer").get("drop_columns")
-corr_threshold = corr_config.get("correlation_analyzer").get("corr_threshold")
+f = corr_config.get("ingest_file_path")
+drop_cols = corr_config.get("drop_columns")
+corr_threshold = corr_config.get("corr_threshold")
 DEFAULT_PATH =  os.path.join(PROJECT_DIR, f)
-IMG_PATH= corr_config.get("correlation_analyzer").get("img_file_path")
-LIST_PATH= corr_config.get("correlation_analyzer").get("txt_file_path")
+IMG_PATH= corr_config.get("img_file_path")
+LIST_PATH= corr_config.get("txt_file_path")
+CORR_PATH=corr_config.get("corr_data_path")
 
-def correlation_check(data_path=DEFAULT_PATH, img_save_path=IMG_PATH, txt_save_path=LIST_PATH, columns=drop_cols, correlation_threshold=corr_threshold):
+def correlation_check(columns=[],data_path=DEFAULT_PATH, img_save_path=IMG_PATH, txt_save_path=LIST_PATH, corr_data_path=CORR_PATH,correlation_threshold=corr_threshold):
     #Placeholder for data variable
     data= None
-
     #Try to Load data from pickle
-    if str(data_path).endswith(".pkl"):
+    try:
+        data = pd.read_pickle(data_path)
+    except FileNotFoundError as ffe:
+        print(f"Pickle File does not exist at path: {data_path}. \n{ffe}")
         try:
-            data = pd.read_pickle(data_path)
-        except FileNotFoundError as ffe:
-            print(f"Pickle File does not exist at path: {data_path}. \n{ffe}")
-
-    #Try to Load data from parquet
-    elif str(data_path).endswith(".parquet"):
-        try:
+            # Try to Load data from parquet
             data = pd.read_parquet(data_path)
-        except FileNotFoundError as ffe:
-            print(f"Parquet File does not exist at path: {data_path}. \n{ffe}")
-
-    if data == None:
-        print(f"Data is Nonetype object. Data did not load.")
-        raise TypeError
+        except FileNotFoundError as parquet_ffe:
+            print(f"Parquet File also does not exist at path: {data_path}. \n{parquet_ffe}")
+            raise FileNotFoundError(f"No data file found at path: {data_path}") from None
+    
+    try:
+        assert type(img_save_path) == str
+    except AssertionError:
+        a= type(img_save_path)
+        raise TypeError(f"Path cannot be a {a} object.") from None
+    try:
+        assert type(txt_save_path) == str
+    except AssertionError:
+        a= type(img_save_path)
+        raise TypeError(f"Path cannot be a {a} object.") from None
+    try:
+        assert type(corr_data_path) == str
+    except AssertionError:
+        a= type(img_save_path)
+        raise TypeError(f"Path cannot be a {a} object.") from None
     
     # Calculate the correlation matrix excluding the 'CustomerID' column
-    corr_data = data.drop(columns,axis=1)
+    corr_data = data.drop("CustomerID", axis=1)
     corr = corr_data.corr()
 
     # Define a custom colormap
@@ -64,18 +74,32 @@ def correlation_check(data_path=DEFAULT_PATH, img_save_path=IMG_PATH, txt_save_p
     mask[np.triu_indices_from(mask, k=1)] = True
 
     # Plot the heatmap
-    plt.figure(figsize=(12, 10))
-    hmap = sns.heatmap(corr, mask=mask, cmap=my_cmap, annot=True, center=0, fmt='.2f', linewidths=2)
-    plt.plot(hmap)
+    fig=plt.figure(figsize=(10, 10))
     plt.title('Correlation Matrix', fontsize=14)
-    plt.show()
+    hmap = sns.heatmap(corr, mask=mask, cmap=my_cmap, annot=True, center=0, fmt='.2f', linewidths=2)
 
-    #Find pairs with correlation value above threshold
+    #Save heatmap as image for reference
+    try:
+        fig.savefig(img_save_path)
+                
+    except FileExistsError as fe:
+        result = yes_no_dialog(
+            title='File Exists Error',
+            text=f"Existing file in use. Please close to overwrite the file. Error: {fe}.").run()
+        if result == True:
+            fig.savefig(img_save_path)
+        else:
+            print(f"Could not save File at Path: {img_save_path}.")
+
+    else:
+        print(f"File saved successfully at Path: {img_save_path}.")
+        
+    # Find pairs with correlation value above threshold
     high_corr = []
-    for i in len(range(mask.columns)):
-        query = mask.loc[mask[mask.columns[i]] > correlation_threshold]
+    for i in range(len(corr.columns)): 
+        query = corr.loc[corr[corr.columns[i]] > correlation_threshold]
         paired_column = query.index
-        [high_corr.append((mask.columns[i],col),  query[mask.columns[i]]) for col in paired_column]
+        [high_corr.append((corr.columns[i], query[corr.columns[i]])) for col in paired_column]
 
     print(high_corr)
 
@@ -84,27 +108,24 @@ def correlation_check(data_path=DEFAULT_PATH, img_save_path=IMG_PATH, txt_save_p
         with open(txt_save_path, 'w') as fp:
             [fp.write(f"{item}\n") for item in high_corr]
         print(f"File saved successfully at {txt_save_path}.")
-
     except FileNotFoundError:
         with open(txt_save_path, 'w') as fp:
             [fp.write(f"{item}\n") for item in high_corr]
         print(f"File created successfully at {txt_save_path}.")
-    
-    #Save heatmap as image for reference
+
+    #saving corr matrix
     try:
-        plt.savefig(img_save_path, dpi=1000)
-        
+        corr.to_parquet(corr_data_path)
     except FileExistsError as fe:
         result = yes_no_dialog(
             title='File Exists Error',
             text=f"Existing file in use. Please close to overwrite the file. Error: {fe}.").run()
         if result == True:
-            plt.savefig(img_save_path, dpi=1000)
+            corr.to_parquet(corr_data_path)
         else:
             print(f"Could not save File at Path: {img_save_path}.")
 
     else:
         print(f"File saved successfully at Path: {img_save_path}.")
-        
-    
-    return img_save_path
+
+    return [img_save_path, txt_save_path, corr_data_path]

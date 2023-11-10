@@ -1,0 +1,214 @@
+('Days_Since_Last_Purchase', Days_Since_Last_Purchase    1.0
+Name: Days_Since_Last_Purchase, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Transactions', Total_Transactions           1.000000
+Total_Products_Purchased     0.567150
+Total_Spend                  0.554373
+Unique_Products_Purchased    0.693867
+Cancellation_Frequency       0.793542
+Cancellation_Rate            0.573970
+Name: Total_Transactions, dtype: float64)
+('Total_Products_Purchased', Total_Transactions          0.567150
+Total_Products_Purchased    1.000000
+Total_Spend                 0.918473
+Monthly_Spending_Mean       0.624220
+Monthly_Spending_Std        0.692628
+Name: Total_Products_Purchased, dtype: float64)
+('Total_Products_Purchased', Total_Transactions          0.567150
+Total_Products_Purchased    1.000000
+Total_Spend                 0.918473
+Monthly_Spending_Mean       0.624220
+Monthly_Spending_Std        0.692628
+Name: Total_Products_Purchased, dtype: float64)
+('Total_Products_Purchased', Total_Transactions          0.567150
+Total_Products_Purchased    1.000000
+Total_Spend                 0.918473
+Monthly_Spending_Mean       0.624220
+Monthly_Spending_Std        0.692628
+Name: Total_Products_Purchased, dtype: float64)
+('Total_Products_Purchased', Total_Transactions          0.567150
+Total_Products_Purchased    1.000000
+Total_Spend                 0.918473
+Monthly_Spending_Mean       0.624220
+Monthly_Spending_Std        0.692628
+Name: Total_Products_Purchased, dtype: float64)
+('Total_Products_Purchased', Total_Transactions          0.567150
+Total_Products_Purchased    1.000000
+Total_Spend                 0.918473
+Monthly_Spending_Mean       0.624220
+Monthly_Spending_Std        0.692628
+Name: Total_Products_Purchased, dtype: float64)
+('Total_Spend', Total_Transactions          0.554373
+Total_Products_Purchased    0.918473
+Total_Spend                 1.000000
+Monthly_Spending_Mean       0.731928
+Monthly_Spending_Std        0.817843
+Name: Total_Spend, dtype: float64)
+('Total_Spend', Total_Transactions          0.554373
+Total_Products_Purchased    0.918473
+Total_Spend                 1.000000
+Monthly_Spending_Mean       0.731928
+Monthly_Spending_Std        0.817843
+Name: Total_Spend, dtype: float64)
+('Total_Spend', Total_Transactions          0.554373
+Total_Products_Purchased    0.918473
+Total_Spend                 1.000000
+Monthly_Spending_Mean       0.731928
+Monthly_Spending_Std        0.817843
+Name: Total_Spend, dtype: float64)
+('Total_Spend', Total_Transactions          0.554373
+Total_Products_Purchased    0.918473
+Total_Spend                 1.000000
+Monthly_Spending_Mean       0.731928
+Monthly_Spending_Std        0.817843
+Name: Total_Spend, dtype: float64)
+('Total_Spend', Total_Transactions          0.554373
+Total_Products_Purchased    0.918473
+Total_Spend                 1.000000
+Monthly_Spending_Mean       0.731928
+Monthly_Spending_Std        0.817843
+Name: Total_Spend, dtype: float64)
+('Average_Transaction_Value', Average_Transaction_Value    1.00000
+Monthly_Spending_Mean        0.79276
+Name: Average_Transaction_Value, dtype: float64)
+('Average_Transaction_Value', Average_Transaction_Value    1.00000
+Monthly_Spending_Mean        0.79276
+Name: Average_Transaction_Value, dtype: float64)
+('Unique_Products_Purchased', Total_Transactions           0.693867
+Unique_Products_Purchased    1.000000
+Cancellation_Frequency       0.525893
+Name: Unique_Products_Purchased, dtype: float64)
+('Unique_Products_Purchased', Total_Transactions           0.693867
+Unique_Products_Purchased    1.000000
+Cancellation_Frequency       0.525893
+Name: Unique_Products_Purchased, dtype: float64)
+('Unique_Products_Purchased', Total_Transactions           0.693867
+Unique_Products_Purchased    1.000000
+Cancellation_Frequency       0.525893
+Name: Unique_Products_Purchased, dtype: float64)
+('Average_Days_Between_Purchases', Average_Days_Between_Purchases    1.0
+Name: Average_Days_Between_Purchases, dtype: float64)
+('Day_Of_Week', Day_Of_Week    1.0
+Name: Day_Of_Week, dtype: float64)
+('Hour', Hour    1.0
+Name: Hour, dtype: float64)
+('Is_UK', Is_UK    1.0
+Name: Is_UK, dtype: float64)
+('Cancellation_Frequency', Total_Transactions           0.793542
+Unique_Products_Purchased    0.525893
+Cancellation_Frequency       1.000000
+Cancellation_Rate            0.741862
+Name: Cancellation_Frequency, dtype: float64)
+('Cancellation_Frequency', Total_Transactions           0.793542
+Unique_Products_Purchased    0.525893
+Cancellation_Frequency       1.000000
+Cancellation_Rate            0.741862
+Name: Cancellation_Frequency, dtype: float64)
+('Cancellation_Frequency', Total_Transactions           0.793542
+Unique_Products_Purchased    0.525893
+Cancellation_Frequency       1.000000
+Cancellation_Rate            0.741862
+Name: Cancellation_Frequency, dtype: float64)
+('Cancellation_Frequency', Total_Transactions           0.793542
+Unique_Products_Purchased    0.525893
+Cancellation_Frequency       1.000000
+Cancellation_Rate            0.741862
+Name: Cancellation_Frequency, dtype: float64)
+('Cancellation_Rate', Total_Transactions        0.573970
+Cancellation_Frequency    0.741862
+Cancellation_Rate         1.000000
+Name: Cancellation_Rate, dtype: float64)
+('Cancellation_Rate', Total_Transactions        0.573970
+Cancellation_Frequency    0.741862
+Cancellation_Rate         1.000000
+Name: Cancellation_Rate, dtype: float64)
+('Cancellation_Rate', Total_Transactions        0.573970
+Cancellation_Frequency    0.741862
+Cancellation_Rate         1.000000
+Name: Cancellation_Rate, dtype: float64)
+('Monthly_Spending_Mean', Total_Products_Purchased     0.624220
+Total_Spend                  0.731928
+Average_Transaction_Value    0.792760
+Monthly_Spending_Mean        1.000000
+Monthly_Spending_Std         0.656636
+Name: Monthly_Spending_Mean, dtype: float64)
+('Monthly_Spending_Mean', Total_Products_Purchased     0.624220
+Total_Spend                  0.731928
+Average_Transaction_Value    0.792760
+Monthly_Spending_Mean        1.000000
+Monthly_Spending_Std         0.656636
+Name: Monthly_Spending_Mean, dtype: float64)
+('Monthly_Spending_Mean', Total_Products_Purchased     0.624220
+Total_Spend                  0.731928
+Average_Transaction_Value    0.792760
+Monthly_Spending_Mean        1.000000
+Monthly_Spending_Std         0.656636
+Name: Monthly_Spending_Mean, dtype: float64)
+('Monthly_Spending_Mean', Total_Products_Purchased     0.624220
+Total_Spend                  0.731928
+Average_Transaction_Value    0.792760
+Monthly_Spending_Mean        1.000000
+Monthly_Spending_Std         0.656636
+Name: Monthly_Spending_Mean, dtype: float64)
+('Monthly_Spending_Mean', Total_Products_Purchased     0.624220
+Total_Spend                  0.731928
+Average_Transaction_Value    0.792760
+Monthly_Spending_Mean        1.000000
+Monthly_Spending_Std         0.656636
+Name: Monthly_Spending_Mean, dtype: float64)
+('Monthly_Spending_Std', Total_Products_Purchased    0.692628
+Total_Spend                 0.817843
+Monthly_Spending_Mean       0.656636
+Monthly_Spending_Std        1.000000
+Name: Monthly_Spending_Std, dtype: float64)
+('Monthly_Spending_Std', Total_Products_Purchased    0.692628
+Total_Spend                 0.817843
+Monthly_Spending_Mean       0.656636
+Monthly_Spending_Std        1.000000
+Name: Monthly_Spending_Std, dtype: float64)
+('Monthly_Spending_Std', Total_Products_Purchased    0.692628
+Total_Spend                 0.817843
+Monthly_Spending_Mean       0.656636
+Monthly_Spending_Std        1.000000
+Name: Monthly_Spending_Std, dtype: float64)
+('Monthly_Spending_Std', Total_Products_Purchased    0.692628
+Total_Spend                 0.817843
+Monthly_Spending_Mean       0.656636
+Monthly_Spending_Std        1.000000
+Name: Monthly_Spending_Std, dtype: float64)
+('Spending_Trend', Spending_Trend    1.0
+Name: Spending_Trend, dtype: float64)

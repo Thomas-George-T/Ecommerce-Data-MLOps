@@ -32,20 +32,18 @@ def data_scaler(standardize_columns, normalize_columns, data_path=DEFAULT_PATH, 
     data = None
 
     #Try to Load data from pickle
-    if str(data_path).endswith(".pkl"):
+    try:
+        data = pd.read_pickle(data_path)
+    except FileNotFoundError as ffe:
+        print(f"Pickle File does not exist at path: {data_path}. \n{ffe}")
         try:
-            data = pd.read_pickle(data_path)
-        except FileNotFoundError as ffe:
-            print(f"Pickle File does not exist at path: {data_path}. \n{ffe}")
-
-    #Try to Load data from parquet
-    elif str(data_path).endswith(".parquet"):
-        try:
+            # Try to Load data from parquet
             data = pd.read_parquet(data_path)
-        except FileNotFoundError as ffe:
-            print(f"Parquet File does not exist at path: {data_path}. \n{ffe}")
-    
-    scaled_data=data
+        except FileNotFoundError as parquet_ffe:
+            print(f"Parquet File also does not exist at path: {data_path}. \n{parquet_ffe}")
+            raise FileNotFoundError(f"No data file found at path: {data_path}") from None
+
+    scaled_data=data        
 
     #Standardizing the data 
     for i in range(len(standardize_columns)):
@@ -57,11 +55,34 @@ def data_scaler(standardize_columns, normalize_columns, data_path=DEFAULT_PATH, 
         norm_scaler = Normalizer()
         scaled_data[[normalize_columns[i]]]=norm_scaler.fit_transform(data[[normalize_columns[i]]])
 
-    print(scaled_data)
+    print(scaled_data)#checking
+    #Check is all columns in Config are in Data
+    try:
+        assert all(col in data.columns for col in standardize_columns)
+    except AssertionError:
+        print(f"Column not found in Dataset. Recheck Config File.")
+        raise KeyError
+    else:
+        try:
+            assert all(col in data.columns for col in normalize_columns)
+        except AssertionError:
+            print(f"Column not found in Dataset. Recheck Config File.")
+            raise KeyError
+    try:
+        assert [scaled_data[i].between(-1,1).all() for i in standardize_columns]
+    except AssertionError:
+        raise AssertionError(f"Standard Scaling incomplete. Values out of bounds:(-1,1)") from None
+
+    try:
+        assert [scaled_data[i].between(0,1).all() for i in normalize_columns]
+    except AssertionError:
+        raise AssertionError(f"Normalize Scaling incomplete. Values out of bounds:(-1,1)") from None
 
     #Saving the processed data as a parquet file and returning path
     try:
         scaled_data.to_parquet(save_path)
+    except AttributeError:
+        print(f"Could not save File at Path: {save_path}.")
     except FileExistsError as fe:
         result = yes_no_dialog(
             title='File Exists Error',

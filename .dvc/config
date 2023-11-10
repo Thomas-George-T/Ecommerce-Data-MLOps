@@ -1,6 +1,4 @@
 [core]
-    remote = mlops-project
-    autostage = true
-['remote "mlops-project"']
+    remote = myremote
+['remote "myremote"']
     url = gs://custseg_dvc_store
-    credentialpath = S:\NEU\Courses_Academic\IE7374_MLOps\Ecommerce-Data-MLOps\.dvc\customersegmentation-404405-5b3526f2fed6.json

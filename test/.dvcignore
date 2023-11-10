@@ -1,0 +1,5 @@
+#Only Tracked
+!test_data/*
+
+#Untracked all
+*

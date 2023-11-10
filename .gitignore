@@ -6,6 +6,7 @@ lab01
 .pytest_cache
 *.pyo
 *.pyc
+.vscode
 
 # C extensions
 *.so
@@ -73,9 +74,11 @@ src/.DS_Store
 
 # Virtal environment
 env3
+tester
 =======
 
 # sub-directories
 dags/data/*
 !dags/data/__init__.py
 logs
+/data
