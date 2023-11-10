@@ -22,7 +22,7 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
     :return: Processed customer data with added information about unique products purchased.
     """
     customer_data = pd.DataFrame()
-    
+
     if os.path.exists(input_pickle_file):
         with open(input_pickle_file, "rb") as file:
             df = pickle.load(file)
@@ -31,10 +31,11 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
         with open(rfm_pickle_file, "rb") as file:
             customer_data = pickle.load(file)
 
-    unique_products_purchased = df.groupby('CustomerID')['StockCode'].nunique().reset_index()
-    unique_products_purchased.rename(columns={'StockCode': 'Unique_Products_Purchased'},
-    inplace=True)
-    customer_data = pd.merge(customer_data, unique_products_purchased, on='CustomerID')
+    if 'CustomerID' in df.columns and not df.empty:
+        unique_products_purchased = df.groupby('CustomerID')['StockCode'].nunique().reset_index()
+        unique_products_purchased.rename(columns={'StockCode': 'Unique_Products_Purchased'},
+        inplace=True)
+        customer_data = pd.merge(customer_data, unique_products_purchased, on='CustomerID')
 
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
