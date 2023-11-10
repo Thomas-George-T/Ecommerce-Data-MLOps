@@ -8,6 +8,9 @@ on:
       - feature_bardia
       - feature_komal
       - feature_ashkan
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
