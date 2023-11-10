@@ -11,7 +11,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_RFM.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'unique_products.pkl')
 
-def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
+def unique_products(input_pickle_file=input_pickle_path, rfm_pickle_file=rfm_pickle_path ,
+output_pickle_file=output_pickle_path):
     """
     Calculate the number of unique products purchased by each customer.
 
@@ -47,5 +48,5 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
         )
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file

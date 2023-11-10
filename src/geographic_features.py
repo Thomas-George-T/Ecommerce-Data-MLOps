@@ -11,7 +11,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 behavorial_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','customers_behavior.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'geographic_features.pkl')
 
-def geographic_features(input_pickle_file, behavorial_pickle_file, output_pickle_file):
+def geographic_features(input_pickle_file=input_pickle_path,
+behavorial_pickle_file=behavorial_pickle_path, output_pickle_file=output_pickle_path):
     """
     Process geographic features and merge with behavioral data.
 
@@ -48,5 +49,5 @@ def geographic_features(input_pickle_file, behavorial_pickle_file, output_pickle
     )
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file

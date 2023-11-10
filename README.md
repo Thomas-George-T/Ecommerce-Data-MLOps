@@ -194,6 +194,19 @@ In this phase, the dataset undergoes various cleaning and preprocessing steps to
 - `duplicates_handler.py`: Detects and removes duplicate records to maintain data integrity.
 - `transaction_status_handler.py`: Processes the transaction status data, extracting relevant features.
 - `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
+- `cleaning_description.py`: Remove rows where the description contains service related information.
+- `removing_zero_unitprice.py`: Removing rows where unit price is zero.
+- `outlier_treatment.py`: Identifies and removes outliers.
 
 Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
 
+### 3. Feature Engineering:
+In this step, we perform feature engineering to analyze and modify the features to further improve the training and improve the results and evaluation metrics. The following modules are created for feature engineering:
+- `rfm.py`: This module analyzes Recency, Frequency and Monetary methods to know about the value of customers and dividing the base.
+- `unique_products.py`: This module groups the values based on unique values of ‘CustomerID’ and orders.
+- `customers_behavior.py`: The module shows how the behavioral patterns of customers affect the business based on weekly frequency.
+- `geographic_features.py`: This module defines the distribution of the customers' data with respect to regions.
+- `cancellation_details.py`: This module shows how cancelling of orders affects the business and the data. It also shows the frequency of cancellation and cancellation			     rate.
+- `seasonality.py`: This module analyzes the seasonal trends and how they affect customers and business.
+
+The inputs for these modules are pickle files which are taken as dataframes and outputs are paths to the pickle files which are stores the values from the dataframes which are created after each task.
