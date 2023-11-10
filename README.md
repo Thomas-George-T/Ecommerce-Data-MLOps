@@ -61,7 +61,7 @@ python --version
 docker run --rm "debian:bullseye-slim" bash -c 'numfmt --to iec $(echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE))))'
 ```
 
-</hr>
+<hr>
 
 **FOR WINDOWS: Create a file called .env in the same folder as `docker-compose.yaml` and set the user as follows:**
 ```
@@ -73,7 +73,7 @@ ValueError: Unable to configure handler 'processor'
 ```
 **Setting the user manually like above fixes it**
 
-</hr>
+<hr>
 
 4. With Docker running, initialize the database. This step only has to be done once.
 ```docker
@@ -117,7 +117,7 @@ Only on a successful build, the feature branches be merged with the main.
 
 The `docker-compose.yaml` file contains the code neccessary to run Airflow. Through the use of Docker and containerization, we are able to ship our datapipeline with the required dependencies installed. This makes it platform indepedent, whether it is windows, mac or linux, our data pipeline should run smooth.
 
-</hr>
+<hr>
 
 # Data Pipeline
 
@@ -163,7 +163,7 @@ In this step, we perform feature engineering to analyze and modify the features 
 
 The inputs for these modules are pickle files which are taken as dataframes and outputs are paths to the pickle files which are stores the values from the dataframes which are created after each task.
 
-</hr>
+<hr>
 
 # Contributing / Development Guide
 
@@ -221,4 +221,4 @@ Next Step is to initialize the airflow database the first time as shown in `User
 If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
 
 
-</hr>
+<hr>
