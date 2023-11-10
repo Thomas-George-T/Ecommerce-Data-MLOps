@@ -1,0 +1,30 @@
+{    
+    "scaler":{
+        "ingest_file_path": "data\\processed\\calculate_trends.pkl",
+        "out_file_path": "data\\processed\\scaler_output.parquet",
+        "standardize_columns": ["Monthly_Spending_Mean","Monthly_Spending_Std"], 
+        "normalize_columns": ["Total_Spend","Spending_Trend"]
+
+    },
+
+    "pca":{
+        "ingest_file_path": "data\\processed\\scaler_output.parquet",
+        "out_file_path": "data\\processed\\PCA_output.parquet",
+        "columns": ["Days_Since_Last_Purchase",	"Total_Transactions","Total_Products_Purchased",
+        "Total_Spend","Average_Transaction_Value","Unique_Products_Purchased","Average_Days_Between_Purchases",
+        "Cancellation_Frequency","Cancellation_Rate","Monthly_Spending_Mean", "Monthly_Spending_Std","Spending_Trend"],
+        "cvr_threshold": 0.8
+    },
+    
+    "correlation_analyzer":{
+        "ingest_file_path": "data\\processed\\PCA_output.parquet",
+        "img_file_path": "data\\processed\\correlation_heatmap.png",
+        "txt_file_path": "data\\processed\\high_correlations.txt",
+        "drop_columns": ["CustomerID"],
+        "corr_threshold": 0.5
+    },
+
+    "splitter":{
+
+    }
+}

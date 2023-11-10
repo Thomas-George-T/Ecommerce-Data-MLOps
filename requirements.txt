@@ -1,11 +1,17 @@
 scikit-learn
 numpy
 pandas
+seaborn
 pytest
 ipykernel
 mlflow
 requests
 pytest-mock
 pytest-pylint
+pyarrow
+Path
 openpyxl
 requests-mock
+pylance
+pylint
+
