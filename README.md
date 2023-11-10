@@ -107,7 +107,7 @@ We utilize Apache Airflow for our pipeline. We create a DAG with our modules
 
 </hr>
 
-# Contributing / Development
+# Contributing / Development Guide
 
 Before developing our code, we should install the required dependencies
 ```python
