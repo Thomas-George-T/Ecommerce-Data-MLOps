@@ -121,6 +121,7 @@ Our data pipeline is modularized right from data ingestion to preprocessing to m
 We utilize Apache Airflow for our pipeline. We create a DAG with our modules
 
 ![DAG Image](assets/dag.jpg "Airflow DAG")
+Pictured: Our Airflow DAG
 
 The following is the explanation of our Data pipeline DAG
 
