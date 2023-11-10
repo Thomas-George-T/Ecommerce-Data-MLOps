@@ -101,6 +101,11 @@ docker compose down
 ```
 # Tools Used for MLOps
 
+- GitHub Actions
+- Docker
+- Airflow
+- DVC
+
 ## GitHub Actions
 
 GitHub Actions workflows are set on push and on pull requests for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
@@ -118,7 +123,7 @@ The `docker-compose.yaml` file contains the code neccessary to run Airflow. Thro
 
 Our data pipeline is modularized right from data ingestion to preprocessing to make our data ready for modeling. It is made sure that every module functions as expected by following Test Driven Development (TDD). This is achieved through enforcing tests for every module. 
 
-We utilize Apache Airflow for our pipeline. We create a DAG with our modules
+We utilize Apache Airflow for our pipeline. We create a DAG with our modules.
 
 ![DAG Image](assets/dag.jpg "Airflow DAG")
 
