@@ -10,8 +10,7 @@ from sklearn.ensemble import IsolationForest
 # Determine the absolute path of the project directory
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed',' \
-                                seasonality.pkl')
+INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','seasonality.pkl')
 OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_outlier_treatment.pkl')
 
 def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
@@ -46,4 +45,5 @@ def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUT
     with open(output_pickle_path, "wb") as file:
         pickle.dump(df_cleaned, file)
     print(f"Data saved to {output_pickle_path}.")
+    
     return output_pickle_path
