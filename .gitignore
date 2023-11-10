@@ -81,4 +81,4 @@ env311
 dags/data/*
 !dags/data/__init__.py
 logs
-/data
+
