@@ -53,6 +53,7 @@ ingest_data_task = PythonOperator(
     op_args=["https://archive.ics.uci.edu/static/public/352/online+retail.zip"],
     dag=dag,
 )
+
 # Task to unzip the downloaded data, depends on 'ingest_data'
 unzip_file_task = PythonOperator(
     task_id='unzip_file_task',
@@ -173,7 +174,7 @@ geographic_features_task = PythonOperator(
 
 # Task to handle cancellation frequency and rate, depends on geographic features
 cancellation_details_task = PythonOperator(
-    task_id='geographic_features_task',
+    task_id='cancellation_details_task',
     python_callable=cancellation_details,
     op_kwargs={
         'input_picle_path': '{{ ti.xcom_pull(task_ids="geographic_features_task") }}',
@@ -202,7 +203,7 @@ outlier_treatment_task = PythonOperator(
 )
 
 # Set task dependencies
-ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task >> cleaning_description_task >> removing_zero_task >> rfm_task >> unique_products_task >> customers_behavior_task >> geographic_features_task >> cancellation_details_task >> seasonality_task >> outlier_treatment_task
+ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task >> cleaning_description_task >> removing_zero_unitprice_task >> rfm_task >> unique_products_task >> customers_behavior_task >> geographic_features_task >> cancellation_details_task >> seasonality_task >> outlier_treatment_task
 
 # If this script is run directly, allow command-line interaction with the DAG
 if __name__ == "__main__":

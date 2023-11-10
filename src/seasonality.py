@@ -13,7 +13,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 cancellation_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','cancellation_details.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'seasonality.pkl')
 
-def seasonality_impacts(input_pickle_file, cancellation_pickle_file, output_pickle_file):
+def seasonality_impacts(input_pickle_file=input_pickle_path,
+cancellation_pickle_file=cancellation_pickle_path, output_pickle_file=output_pickle_path):
     """
     Calculate seasonality impacts and trends for customer spending.
 
@@ -68,5 +69,5 @@ def seasonality_impacts(input_pickle_file, cancellation_pickle_file, output_pick
 
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file

@@ -13,7 +13,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 geographic_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','geographic_features.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'cancellation_details.pkl')
 
-def cancellation_details(input_pickle_file, geographic_pickle_file, output_pickle_file):
+def cancellation_details(input_pickle_file=input_pickle_path,
+geographic_pickle_file=geographic_pickle_path, output_pickle_file= output_pickle_path):
     """
     Process cancellation frequency and calculate cancellation rates for customers.
 
@@ -45,5 +46,5 @@ def cancellation_details(input_pickle_file, geographic_pickle_file, output_pickl
     )
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file
