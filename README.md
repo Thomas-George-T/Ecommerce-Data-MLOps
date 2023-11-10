@@ -149,5 +149,8 @@ In this phase, the dataset undergoes various cleaning and preprocessing steps to
 - `duplicates_handler.py`: Detects and removes duplicate records to maintain data integrity.
 - `transaction_status_handler.py`: Processes the transaction status data, extracting relevant features.
 - `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
+- `cleaning_description.py`: Remove rows where the description contains service related information.
+- `removing_zero_unitprice.py`: Removing rows where unit price is zero.
+- `outlier_treatment.py`: Identifies and removes outliers.
 
 Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
