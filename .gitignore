@@ -66,7 +66,16 @@ maildir
 # Notebooks
 notebooks/
 
+# DS Store
 */.DS_Store/*
+.DS_Store
+src/.DS_Store
 
-# Virtual Environment
+# Virtal environment
+env3
 env311
+
+# sub-directories
+dags/data/*
+!dags/data/__init__.py
+logs

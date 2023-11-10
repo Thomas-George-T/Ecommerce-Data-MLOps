@@ -49,17 +49,33 @@ This project uses `Python >= 3.10`. Please ensure that the correct version is in
 The steps for User installation are as follows:
 
 1. Clone repository onto the local machine
-2. Install the required dependencies
+2. Install required dependencies
 ```python
 pip install -r requirements.txt
 ```
-3. From the root of the respository, build the image
+3. With Docker running, initialize the database
 ```docker
-docker-compose build
+docker compose up airflow-init
 ```
-4. Run the docker compose
+4. Run airflow
 ```docker
 docker-compose up
+```
+Wait until terminal outputs
+
+`app-airflow-webserver-1  | 127.0.0.1 - - [17/Feb/2023:09:34:29 +0000] "GET /health HTTP/1.1" 200 141 "-" "curl/7.74.0"`
+
+5. Visit localhost:8080 login with credentials
+
+```
+user:airflow2
+password:airflow2
+```
+6. Run the DAG by clicking on the play button on the right side of the window
+
+7. Stop docker containers
+```docker
+docker compose down
 ```
 
 # GitHub Actions
@@ -69,17 +85,7 @@ The workflow will check for test cases available under `test` for the correspond
 
 Only on a successful build, the feature branches be merged with the main.
 
-# Docker
-
-1. Build the docker image from the Dockerfile
-```docker
-docker-compose build
-```
-
-2. Run the docker compose
-```docker
-docker-compose up
-```
+# Contributing / Development
 
 ## Testing
 Before pushing code to GitHub, Run the following commands locally to ensure build success. Working on the suggestions given by `Pylint` improves code quality. Ensuring that the test cases are passed by `Pytest` are essential for code reviews and maintaining code quality.
@@ -93,3 +99,36 @@ To running the test suites for the modules, run the following:
 ```python
 pytest 
 ```
+## Airflow Dags
+
+### To make your Dags/Append Dag
+After your code is built successfully, copy them to `dags/src/`. Write your Python Operator in `airflow.py` under `dags/src/`.
+Set dependencies using the `>>` operator.
+
+After this step, we need to edit our `docker-compose.yaml` file
+
+## Docker
+
+Optional: If your code uses additional requirements, please edit `docker-compose.yaml`.
+Under Environment or as follows:
+
+```docker
+environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    # For backward compatibility, with Airflow <2.3
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
+    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- scikit-learn numpy pandas ipykernel mlflow requests openpyxl requests-mock apache-airflow apache-airflow-providers-celery apache-airflow-providers-common-sql apache-airflow-providers-ftp apache-airflow-providers-http apache-airflow-providers-imap apache-airflow-providers-sqlite Flask Flask-AppBuilder Flask-Babel Flask-Caching Flask-JWT-Extended Flask-Limiter Flask-Login Flask-Session Flask-SQLAlchemy Flask-WTF flower celery }
+```
+Add your packages to `_PIP_ADDITIONAL_REQUIREMENTS:` in the `docker-compose.yaml` file
+
+Next Step: `User Installation Step 3`. After this, Continue till Step 6.
+
+If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.

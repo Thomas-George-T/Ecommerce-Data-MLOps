@@ -6,9 +6,6 @@ import requests
 
 DEFAULT_FILE_URL = "https://archive.ics.uci.edu/static/public/352/online+retail.zip"
 
-# Set the root directory variable using a relative path
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
 def ingest_data(file_url=DEFAULT_FILE_URL):
     """
     Function to download file from URL
@@ -22,8 +19,11 @@ def ingest_data(file_url=DEFAULT_FILE_URL):
 
     print("Downloading Data")
 
+    # Set the root directory variable using a relative path
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
     # Path to store the zipfile
-    zipfile_path=os.path.join(ROOT_DIR, 'data','data.zip')
+    zipfile_path=os.path.join(root_dir, 'data','data.zip')
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Save file to data
