@@ -8,7 +8,7 @@ import pandas as pd
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 'after_removing_zero_unitprice.pkl')
-rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_rfm.pkl')
+rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_RFM.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'unique_products.pkl')
 
 def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
