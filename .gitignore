@@ -67,3 +67,6 @@ maildir
 notebooks/
 
 */.DS_Store/*
+
+# Virtual Environment
+env311
