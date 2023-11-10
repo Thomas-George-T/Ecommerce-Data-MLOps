@@ -9,6 +9,11 @@ from airflow.operators.python import PythonOperator
 from airflow import configuration as conf
 from src.download_data import ingest_data
 from src.unzip_data import unzip_file
+from src.data_loader import load_data
+from src.missing_values_handler import handle_missing
+from src.duplicates_handler import remove_duplicates
+from src.transaction_status_handler import handle_transaction_status
+from src.anomaly_code_handler import handle_anomalous_codes
 
 
 # Enable pickle support for XCom, allowing data to be passed between tasks
@@ -48,8 +53,58 @@ unzip_file_task = PythonOperator(
     dag=dag,
 )
 
+# Task to load data, depends on unzip_file_task
+load_data_task = PythonOperator(
+    task_id='load_data_task',
+    python_callable=load_data,
+    op_kwargs={
+        'excel_path': '{{ ti.xcom_pull(task_ids="unzip_file_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle missing values, depends on load_data_task
+handle_missing_task = PythonOperator(
+    task_id='missing_values_task',
+    python_callable=handle_missing,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="load_data_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle duplicates, depends on missing_values_task
+remove_duplicates_task = PythonOperator(
+    task_id='remove_duplicates_task',
+    python_callable=remove_duplicates,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="handle_missing_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle transaction status, depends on remove_duplicates_task
+transaction_status_task = PythonOperator(
+    task_id='transaction_status_task',
+    python_callable=handle_transaction_status,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="remove_duplicates_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle anomaly codes, depends on transaction_status_task
+anomaly_codes_task = PythonOperator(
+    task_id='anomaly_codes_task',
+    python_callable=handle_anomalous_codes,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="transaction_status_task") }}',
+    },
+    dag=dag,
+)
+
 # Set task dependencies
-ingest_data_task >> unzip_file_task
+ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task
 
 # If this script is run directly, allow command-line interaction with the DAG
 if __name__ == "__main__":
