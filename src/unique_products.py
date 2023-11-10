@@ -41,7 +41,8 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
 
         customer_data = pd.merge(
             customer_data,
-            unique_products_purchased[unique_products_purchased['CustomerID'].isin(customer_data['CustomerID'])],
+            unique_products_purchased[unique_products_purchased['CustomerID']
+            .isin(customer_data['CustomerID'])],
             on='CustomerID',
         )
     with open(output_pickle_file, "wb") as file:
