@@ -14,7 +14,15 @@ from src.missing_values_handler import handle_missing
 from src.duplicates_handler import remove_duplicates
 from src.transaction_status_handler import handle_transaction_status
 from src.anomaly_code_handler import handle_anomalous_codes
-
+from src.cleaning_description import cleaning_description
+from src.removing_zero_unitprice import removing_zero
+from src.rfm import rfm
+from src.unique_products import unique_products
+from src.customers_behavior import customers_behavior
+from src.geographic_features import geographic_features
+from src.cancellation_details import cancellation_details
+from src.seasonality import seasonality_impacts
+from src.outlier_treatment import removing_outlier
 
 # Enable pickle support for XCom, allowing data to be passed between tasks
 conf.set('core', 'enable_xcom_pickling', 'True')
@@ -45,6 +53,7 @@ ingest_data_task = PythonOperator(
     op_args=["https://archive.ics.uci.edu/static/public/352/online+retail.zip"],
     dag=dag,
 )
+
 # Task to unzip the downloaded data, depends on 'ingest_data'
 unzip_file_task = PythonOperator(
     task_id='unzip_file_task',
@@ -103,8 +112,98 @@ anomaly_codes_task = PythonOperator(
     dag=dag,
 )
 
+# Task to handle cleaning description, depends on anomaly codes
+cleaning_description_task = PythonOperator(
+    task_id='cleaning_description_task',
+    python_callable=cleaning_description,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="anomaly_codes_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle removing zero unitprices, depends on cleaning description
+removing_zero_unitprice_task = PythonOperator(
+    task_id='removing_zero_unitprice_task',
+    python_callable=removing_zero,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="cleaning_description_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle RFM analysis, depends on removing zero unitprices
+rfm_task = PythonOperator(
+    task_id='rfm_task',
+    python_callable=rfm,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="removing_zero_unitprice_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle grouping based on unique products, depends on RFM analysis
+unique_products_task = PythonOperator(
+    task_id='unique_products_task',
+    python_callable=unique_products,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="rfm_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle behavorial patterns, depends on grouping based on unique products
+customers_behavior_task = PythonOperator(
+    task_id='customers_behavior_task',
+    python_callable=customers_behavior,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="unique_products_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle geographic features, depends on behavorial patterns
+geographic_features_task = PythonOperator(
+    task_id='geographic_features_task',
+    python_callable=geographic_features,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="customers_behavior_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle cancellation frequency and rate, depends on geographic features
+cancellation_details_task = PythonOperator(
+    task_id='cancellation_details_task',
+    python_callable=cancellation_details,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="geographic_features_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle seasonality trends, depends on cancellation frequency and rate
+seasonality_task = PythonOperator(
+    task_id='seasonality_task',
+    python_callable=seasonality_impacts,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="cancellation_details_task") }}',
+    },
+    dag=dag,
+)
+
+# Task to handle outlier treatment, depends on seasonality trends
+outlier_treatment_task = PythonOperator(
+    task_id='outlier_treatment_task',
+    python_callable=removing_outlier,
+    op_kwargs={
+        'input_picle_path': '{{ ti.xcom_pull(task_ids="seasonality_task") }}',
+    },
+    dag=dag,
+)
+
 # Set task dependencies
-ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task
+ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task >> cleaning_description_task >> removing_zero_unitprice_task >> rfm_task >> unique_products_task >> customers_behavior_task >> geographic_features_task >> cancellation_details_task >> seasonality_task >> outlier_treatment_task
 
 # If this script is run directly, allow command-line interaction with the DAG
 if __name__ == "__main__":

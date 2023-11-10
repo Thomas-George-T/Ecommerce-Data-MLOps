@@ -75,7 +75,7 @@ src/.DS_Store
 # Virtal environment
 env3
 tester
-=======
+env311
 
 # sub-directories
 dags/data/*
