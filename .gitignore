@@ -72,3 +72,6 @@ notebooks/
 dags/data/*
 !dags/data/__init__.py
 logs
+
+# .DS_Store in src
+src/.DS_Store
