@@ -32,13 +32,18 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
             customer_data = pickle.load(file)
 
     if 'CustomerID' in df.columns and not df.empty:
-        unique_products_purchased = df.groupby('CustomerID')['StockCode'].nunique().reset_index()
-        unique_products_purchased.rename(columns={'StockCode': 'Unique_Products_Purchased'},
-        inplace=True)
+        unique_products_purchased = (
+            df.groupby('CustomerID')['StockCode']
+            .nunique()
+            .reset_index()
+            .rename(columns={'StockCode': 'Unique_Products_Purchased'})
+        )
 
-    if 'CustomerID' in unique_products_purchased.columns:
-        customer_data = pd.merge(customer_data, unique_products_purchased, on='CustomerID')
-
+        customer_data = pd.merge(
+            customer_data,
+            unique_products_purchased[unique_products_purchased['CustomerID'].isin(customer_data['CustomerID'])],
+            on='CustomerID',
+        )
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
 
