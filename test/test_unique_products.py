@@ -7,7 +7,7 @@ from src.unique_products import unique_products
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 'after_removing_zero_unitprice.pkl')
-rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_rfm.pkl')
+rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_RFM.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'unique_products.pkl')
 
 result= unique_products(input_pickle_path, rfm_pickle_path, output_pickle_path)
