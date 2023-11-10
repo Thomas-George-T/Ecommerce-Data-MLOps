@@ -21,7 +21,8 @@ def unique_products(input_pickle_file, rfm_pickle_file , output_pickle_file):
                                with unique product information.
     :return: Processed customer data with added information about unique products purchased.
     """
-
+    customer_data = pd.DataFrame()
+    
     if os.path.exists(input_pickle_file):
         with open(input_pickle_file, "rb") as file:
             df = pickle.load(file)
