@@ -45,5 +45,4 @@ def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUT
     with open(output_pickle_path, "wb") as file:
         pickle.dump(df_cleaned, file)
     print(f"Data saved to {output_pickle_path}.")
-    
     return output_pickle_path
