@@ -159,3 +159,26 @@ Add your packages to `_PIP_ADDITIONAL_REQUIREMENTS:` in the `docker-compose.yaml
 Next Step is to initialize the airflow database the first time as shown in `User Installation Step 4`. After this, Continue DAG development till Step 8.
 
 If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
+
+
+</hr>
+
+# Project Components
+
+The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
+
+### 1. Downloading Data:
+The first stage involves downloading and unzipping the dataset into the `data` directory. This is achieved through the following modules:
+- `download_data.py`: Responsible for downloading the dataset from the specified source.
+- `unzip_data.py`: Extracts the contents of the downloaded zip file for further processing.
+
+### 2. Cleaning Data:
+In this phase, the dataset undergoes various cleaning and preprocessing steps to ensure data quality and readiness for analysis. The following modules are involved in this process:
+- `data_loader.py`: Loads the data from the Excel file and prepares it for cleaning.
+- `missing_values_handler.py`: Identifies and handles missing values in the dataset.
+- `duplicates_handler.py`: Detects and removes duplicate records to maintain data integrity.
+- `transaction_status_handler.py`: Processes the transaction status data, extracting relevant features.
+- `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
+
+Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
+
