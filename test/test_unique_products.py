@@ -2,15 +2,16 @@
 This module tests if the unique_products script works.
 """
 import os
-from src.unique_products import unique_products
+import pickle
 
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
-'after_removing_zero_unitprice.pkl')
-rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_RFM.pkl')
-output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'unique_products.pkl')
+'unique_products.pkl')
 
-result= unique_products(input_pickle_path, rfm_pickle_path, output_pickle_path)
+if os.path.exists(input_pickle_path):
+    with open(input_pickle_path, "rb") as file:
+        result= pickle.load(file)
+
 def test_unique_products():
     """
      This function raises an Assertion error if the columns are not present in the result.

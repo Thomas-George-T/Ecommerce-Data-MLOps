@@ -11,7 +11,7 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 'after_removing_zero_unitprice.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'after_RFM.pkl')
 
-def rfm(input_pickle_file, output_pickle_file):
+def rfm(input_pickle_file=input_pickle_path, output_pickle_file=output_pickle_path):
     """
     Process customer RFM data based on input pickle file.
 
@@ -54,5 +54,5 @@ def rfm(input_pickle_file, output_pickle_file):
     )
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file

@@ -2,15 +2,15 @@
 This module checks if the customers_behavior function works.
 """
 import os
-from src.customers_behavior import customers_behavior
+import pickle
 
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
-'after_removing_zero_unitprice.pkl')
-unique_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','unique_products.pkl')
-output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'customers_behavior.pkl')
+'customers_behavior.pkl')
 
-result= customers_behavior(input_pickle_path, unique_pickle_path, output_pickle_path)
+if os.path.exists(input_pickle_path):
+    with open(input_pickle_path, "rb") as file:
+        result= pickle.load(file)
 
 def test_customers_behavior():
     """

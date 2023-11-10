@@ -13,7 +13,8 @@ input_pickle_path = os.path.join(PROJECT_DIR, 'data', 'processed',
 unique_pickle_path = os.path.join(PROJECT_DIR, 'data', 'processed', 'unique_products.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data', 'processed', 'customers_behavior.pkl')
 
-def customers_behavior(input_pickle_file, unique_pickle_file, output_pickle_file):
+def customers_behavior(input_pickle_file=input_pickle_path, unique_pickle_file=unique_pickle_path,
+output_pickle_file=output_pickle_path):
     """
     Process customer behavior and generate relevant insights.
 
@@ -64,5 +65,5 @@ def customers_behavior(input_pickle_file, unique_pickle_file, output_pickle_file
 
     with open(output_pickle_file, "wb") as file:
         pickle.dump(customer_data, file)
-
-    return customer_data
+    print(f"Data saved to {output_pickle_file}.")
+    return output_pickle_file
