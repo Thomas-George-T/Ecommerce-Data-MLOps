@@ -41,6 +41,7 @@ def load_data(pickle_path=DEFAULT_PICKLE_PATH, excel_path=DEFAULT_EXCEL_PATH):
         print(error_message)
         raise FileNotFoundError(error_message)
     # Save the data to pickle for future use (or re-save it if loaded from existing pickle)
+    os.makedirs(os.path.dirname(pickle_path), exist_ok=True)
     with open(pickle_path, "wb") as file:
         pickle.dump(df, file)
     print(f"Data saved to {pickle_path} for future use.")
