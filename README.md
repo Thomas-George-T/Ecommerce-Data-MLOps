@@ -99,16 +99,20 @@ password:airflow2
 ```docker
 docker compose down
 ```
+# Tools Used for MLOps
 
-# GitHub Actions
+## GitHub Actions
 
 GitHub Actions workflows are set on push and on pull requests for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
 The workflow will check for test cases available under `test` for the corresponding modules in `src`. By using `pylint`, it runs formatting and code leaks tests ensuring that the codes are readable, prevent potential vulnerabilities and be well documented for future use.
 
 Only on a successful build, the feature branches be merged with the main.
 
-# Docker and Airflow
+## Docker and Airflow
+
 The `docker-compose.yaml` file contains the code neccessary to run Airflow. Through the use of Docker and containerization, we are able to ship our datapipeline with the required dependencies installed. This makes it platform indepedent, whether it is windows, mac or linux, our data pipeline should run smooth.
+
+</hr>
 
 # Data Pipeline
 
@@ -116,13 +120,48 @@ Our data pipeline is modularized right from data ingestion to preprocessing to m
 
 We utilize Apache Airflow for our pipeline. We create a DAG with our modules
 
-(DAG Image goes here)
+![DAG Image](assets/dag.jpg "Airflow DAG")
 
-(1 liner about all our modules)
+The following is the explanation of our Data pipeline DAG
+
+# Project Components
+
+The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
+
+### 1. Downloading Data:
+The first stage involves downloading and unzipping the dataset into the `data` directory. This is achieved through the following modules:
+- `download_data.py`: Responsible for downloading the dataset from the specified source.
+- `unzip_data.py`: Extracts the contents of the downloaded zip file for further processing.
+
+### 2. Cleaning Data:
+In this phase, the dataset undergoes various cleaning and preprocessing steps to ensure data quality and readiness for analysis. The following modules are involved in this process:
+- `data_loader.py`: Loads the data from the Excel file and prepares it for cleaning.
+- `missing_values_handler.py`: Identifies and handles missing values in the dataset.
+- `duplicates_handler.py`: Detects and removes duplicate records to maintain data integrity.
+- `transaction_status_handler.py`: Processes the transaction status data, extracting relevant features.
+- `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
+- `cleaning_description.py`: Remove rows where the description contains service related information.
+- `removing_zero_unitprice.py`: Removing rows where unit price is zero.
+- `outlier_treatment.py`: Identifies and removes outliers.
+
+Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
+
+### 3. Feature Engineering:
+In this step, we perform feature engineering to analyze and modify the features to further improve the training and improve the results and evaluation metrics. The following modules are created for feature engineering:
+- `rfm.py`: This module analyzes Recency, Frequency and Monetary methods to know about the value of customers and dividing the base.
+- `unique_products.py`: This module groups the values based on unique values of ‘CustomerID’ and orders.
+- `customers_behavior.py`: The module shows how the behavioral patterns of customers affect the business based on weekly frequency.
+- `geographic_features.py`: This module defines the distribution of the customers' data with respect to regions.
+- `cancellation_details.py`: This module shows how cancelling of orders affects the business and the data. It also shows the frequency of cancellation and cancellation			     rate.
+- `seasonality.py`: This module analyzes the seasonal trends and how they affect customers and business.
+
+The inputs for these modules are pickle files which are taken as dataframes and outputs are paths to the pickle files which are stores the values from the dataframes which are created after each task.
 
 </hr>
 
 # Contributing / Development Guide
+
+**This is the user guide for developers**
 
 Before developing our code, we should install the required dependencies
 ```python
@@ -177,36 +216,3 @@ If everything is done right, you should be able to see your module in th DAG. In
 
 
 </hr>
-
-# Project Components
-
-The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
-
-### 1. Downloading Data:
-The first stage involves downloading and unzipping the dataset into the `data` directory. This is achieved through the following modules:
-- `download_data.py`: Responsible for downloading the dataset from the specified source.
-- `unzip_data.py`: Extracts the contents of the downloaded zip file for further processing.
-
-### 2. Cleaning Data:
-In this phase, the dataset undergoes various cleaning and preprocessing steps to ensure data quality and readiness for analysis. The following modules are involved in this process:
-- `data_loader.py`: Loads the data from the Excel file and prepares it for cleaning.
-- `missing_values_handler.py`: Identifies and handles missing values in the dataset.
-- `duplicates_handler.py`: Detects and removes duplicate records to maintain data integrity.
-- `transaction_status_handler.py`: Processes the transaction status data, extracting relevant features.
-- `anomaly_code_handler.py`: Identifies and corrects anomalies in product codes to ensure data accuracy.
-- `cleaning_description.py`: Remove rows where the description contains service related information.
-- `removing_zero_unitprice.py`: Removing rows where unit price is zero.
-- `outlier_treatment.py`: Identifies and removes outliers.
-
-Each module in the pipeline reads data from an input pickle path, processes it, and outputs the results to an output pickle path. The seamless integration of these modules within Airflow ensures a streamlined and efficient data processing workflow.
-
-### 3. Feature Engineering:
-In this step, we perform feature engineering to analyze and modify the features to further improve the training and improve the results and evaluation metrics. The following modules are created for feature engineering:
-- `rfm.py`: This module analyzes Recency, Frequency and Monetary methods to know about the value of customers and dividing the base.
-- `unique_products.py`: This module groups the values based on unique values of ‘CustomerID’ and orders.
-- `customers_behavior.py`: The module shows how the behavioral patterns of customers affect the business based on weekly frequency.
-- `geographic_features.py`: This module defines the distribution of the customers' data with respect to regions.
-- `cancellation_details.py`: This module shows how cancelling of orders affects the business and the data. It also shows the frequency of cancellation and cancellation			     rate.
-- `seasonality.py`: This module analyzes the seasonal trends and how they affect customers and business.
-
-The inputs for these modules are pickle files which are taken as dataframes and outputs are paths to the pickle files which are stores the values from the dataframes which are created after each task.
