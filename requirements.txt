@@ -30,4 +30,4 @@ flower==2.0.1
 celery==5.3.4
 pyarrow==13.0.0
 seaborn==0.13.0
-tensorflow-data-validation==1.14.0
+tensorflow-data-validation
