@@ -66,12 +66,16 @@ maildir
 # Notebooks
 notebooks/
 
+# DS Store
 */.DS_Store/*
+.DS_Store
+src/.DS_Store
+
+# Virtal environment
+env3
+=======
 
 # sub-directories
 dags/data/*
 !dags/data/__init__.py
 logs
-
-# .DS_Store in src
-src/.DS_Store
