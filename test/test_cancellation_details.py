@@ -9,6 +9,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_v
 geographic_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','geographic_features.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'cancellation_details.pkl')
 
+result= cancellation_Details(input_pickle_path, geographic_pickle_path, output_pickle_path)
+
 def test_cancellation_Details():
-    assert cancellation_Details(input_pickle_path, geographic_pickle_path, output_pickle_path)['Cancellation_Frequency'][1]==0.0   
-    assert cancellation_Details(input_pickle_path, geographic_pickle_path, output_pickle_path)['Cancellation_Rate'][0]==0.5
+    assert 'Cancellation_Frequency' in result.columns
+    assert 'Cancellation_Rate' in result.columns

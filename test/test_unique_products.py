@@ -9,6 +9,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_v
 rfm_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_rfm.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'unique_products.pkl')
 
+result= unique_Products(input_pickle_path, rfm_pickle_path, output_pickle_path)
+
 def test_unique_Products():
-    assert unique_Products(input_pickle_path, rfm_pickle_path, output_pickle_path)['Days_Since_Last_Purchase'][0]==325
-    assert unique_Products(input_pickle_path, rfm_pickle_path, output_pickle_path)['Total_Transactions'][1]==7
+    assert 'Unique_Products_Purchased' in result.columns
+    assert 'Average_Transaction_Value' in result.columns

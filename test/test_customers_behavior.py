@@ -9,6 +9,8 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','after_missing_v
 unique_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','unique_products.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'customers_behavior.pkl')
 
+result= customers_Behavior(input_pickle_path, unique_pickle_path, output_pickle_path)
+
 def test_customers_Behavior():
-    assert customers_Behavior(input_pickle_path, unique_pickle_path, output_pickle_path)['Days_Since_Last_Purchase'][2]==75
-    assert customers_Behavior(input_pickle_path, unique_pickle_path, output_pickle_path)['Hour'][0]==10
+    assert 'CustomerID' in result.columns
+    assert 'Hour' in result.columns

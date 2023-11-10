@@ -40,4 +40,3 @@ def customers_Behavior(input_pickle_file, unique_pickle_file, output_pickle_file
         pickle.dump(customer_data, file)
         
     return customer_data
-
