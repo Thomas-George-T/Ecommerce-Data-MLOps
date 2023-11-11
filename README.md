@@ -122,6 +122,8 @@ The `docker-compose.yaml` file contains the code neccessary to run Airflow. Thro
 
 Data Versioning Control enables us for versioning of datasets and machine learning models, providing a snapshot of the data used for training and the corresponding code, which in turn allows reproducibility and traceability, ensuring that you can recreate any previous state of your project. DVC stores only meta-information, while the actual data remains in cloud storage or other remote locations.DVC easily integrates with Git, thus it allowed us to use Git repositories for managing code and DVC repositories for managing data and models. This dual-repository approach helps keep the codebase clean and lightweight.
 
+![How DVC works](assets/dvc-working.png)
+
 ## Google Cloud Platform (GCP)
 
 Our data version control is tracked and hosted on Google Cloud Platform. Google Cloud seamlessly hosts large dataset and its versioning for developing robust ETL pipelines. Multiple Users can access and update the data at once, while inherent support for versioning helps retrieve older versions effortlessly.
@@ -258,6 +260,5 @@ Steps to initialize and track files using DVC
 4. Don't forget to modify your credentials.
     ```python
     dvc remote modify --lab2 credentialpath <YOUR JSON TOKEN>```
-
 
 <hr>
