@@ -6,6 +6,8 @@ lab01
 .pytest_cache
 *.pyo
 *.pyc
+.dvc/tmp/lock
+.dvc/tmp/rwlock.lock
 
 # C extensions
 *.so
@@ -79,3 +81,6 @@ env311
 dags/data/*
 !dags/data/__init__.py
 logs
+
+#vscode configs
+.vscode
