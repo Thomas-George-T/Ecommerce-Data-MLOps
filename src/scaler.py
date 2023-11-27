@@ -98,5 +98,6 @@ def scaler(paths=__PATH__,columns=COLS):
             print(paths[1])
         else:
             print(f"Could not save File at Path: {paths[1]}.")
+    return paths[1]
 
 scaler()

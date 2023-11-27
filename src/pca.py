@@ -96,6 +96,7 @@ def pc_analyzer(paths=__PATH__,cvr_thresh=CVR_THRESHOLD,drop_cols=NOT_COLUMNS):
         else:
             print(f"Could not save File at Path: {paths[1]}.")
 
+    return paths[1]
 
 def pca_(data,thresh):
     """

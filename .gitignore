@@ -9,6 +9,7 @@ lab01
 .dvc/tmp/lock
 .dvc/tmp/rwlock.lock
 
+
 # C extensions
 *.so
 
@@ -30,6 +31,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+Scripts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

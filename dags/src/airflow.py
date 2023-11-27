@@ -23,6 +23,9 @@ from src.geographic_features import geographic_features
 from src.cancellation_details import cancellation_details
 from src.seasonality import seasonality_impacts
 from src.outlier_treatment import removing_outlier
+from src.scaler import scaler
+from src.pca import pc_analyzer
+from src.correlation import correlation_check
 
 # Enable pickle support for XCom, allowing data to be passed between tasks
 conf.set('core', 'enable_xcom_pickling', 'True')
@@ -202,8 +205,33 @@ outlier_treatment_task = PythonOperator(
     dag=dag,
 )
 
+# Task to standardize the columns
+column_values_scaler_task = PythonOperator(
+    task_id='column_values_scaler_task',
+    python_callable=scaler,
+    dag=dag,
+)
+
+# Task for dimensionality reduction
+pca_task = PythonOperator(
+    task_id='pca_task',
+    python_callable=pc_analyzer,
+    dag=dag,
+)
+
+# Task to check correlation amongst columns at this stage
+correlation_check_task = PythonOperator(
+    task_id='correlation_check_task',
+    python_callable=correlation_check,
+    dag=dag,
+)
+
 # Set task dependencies
-ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task >> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task >> cleaning_description_task >> removing_zero_unitprice_task >> rfm_task >> unique_products_task >> customers_behavior_task >> geographic_features_task >> cancellation_details_task >> seasonality_task >> outlier_treatment_task
+ingest_data_task >> unzip_file_task >> load_data_task >> handle_missing_task \
+>> remove_duplicates_task >> transaction_status_task >> anomaly_codes_task >> cleaning_description_task \
+>> removing_zero_unitprice_task >> rfm_task >> unique_products_task >> customers_behavior_task \
+>> geographic_features_task >> cancellation_details_task >> seasonality_task >> outlier_treatment_task \
+>> column_values_scaler_task >> pca_task >> correlation_check_task
 
 # If this script is run directly, allow command-line interaction with the DAG
 if __name__ == "__main__":

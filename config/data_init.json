@@ -1,0 +1,11 @@
+{   
+    "data_splitter":{
+        "ingest_path":"S:/NEU/Courses_Academic/IE7374_MLOps/Ecommerce-Data-MLOps/data/data.csv",
+        "output_path":"S:/NEU/Courses_Academic/IE7374_MLOps/Ecommerce-Data-MLOps/data/processed"
+    },
+
+    "schema_validator":{
+        "ingest_path":""
+        
+    }
+}
