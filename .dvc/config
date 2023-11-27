@@ -1,8 +1,6 @@
 [core]
     remote = custseg_dvc_store
     autostage = false
-['remote "data_dags"']
-    url = gs://dags_data
 ['remote "custseg_dvc_store"']
     url = gs://custseg_dvc_store
 ['remote "dags_data"']
