@@ -5,8 +5,7 @@
         "standardize_columns":["Days_Since_Last_Purchase", "Total_Transactions",  
                 "Total_Spend", "Average_Transaction_Value","Unique_Products_Purchased", 
                 "Cancellation_Rate","Monthly_Spending_Mean","Monthly_Spending_Std","Spending_Trend"],
-        "normalize_columns":["Total_Products_Purchased","Average_Days_Between_Purchases","Cancellation_Frequency"],
-        "cvr_threshold":0.8
+        "normalize_columns":["Total_Products_Purchased","Average_Days_Between_Purchases","Cancellation_Frequency"]
     },
 
     "correlation":{

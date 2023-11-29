@@ -29,6 +29,7 @@ from src.correlation import correlation_check
 
 # Enable pickle support for XCom, allowing data to be passed between tasks
 conf.set('core', 'enable_xcom_pickling', 'True')
+conf.set('core', 'enable_parquet_xcom', 'True')
 
 # Define default arguments for your DAG
 default_args = {
@@ -209,6 +210,9 @@ outlier_treatment_task = PythonOperator(
 column_values_scaler_task = PythonOperator(
     task_id='column_values_scaler_task',
     python_callable=scaler,
+    op_kwargs={
+        'in_path': '{{ ti.xcom_pull(task_ids="outlier_treatment_task") }}',
+    },
     dag=dag,
 )
 
@@ -216,6 +220,9 @@ column_values_scaler_task = PythonOperator(
 pca_task = PythonOperator(
     task_id='pca_task',
     python_callable=pc_analyzer,
+    op_kwargs={
+        'in_path': '{{ ti.xcom_pull(task_ids="column_values_scaler_task") }}',
+    },
     dag=dag,
 )
 
@@ -223,6 +230,9 @@ pca_task = PythonOperator(
 correlation_check_task = PythonOperator(
     task_id='correlation_check_task',
     python_callable=correlation_check,
+    op_kwargs={
+        'in_path': '{{ ti.xcom_pull(task_ids="column_values_scaler_task") }}',
+    },
     dag=dag,
 )
 

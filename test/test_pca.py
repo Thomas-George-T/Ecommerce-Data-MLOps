@@ -9,9 +9,11 @@ from src.pca import pc_analyzer
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT_PATH = os.path.join(PROJECT_DIR, "data", "processed","seasonality.pkl")
 OUTPUT_PATH = os.path.join(PROJECT_DIR, "data", "test_data","test_pca_output.parquet")
-path=(INPUT_PATH,OUTPUT_PATH)
 drop = []
-attribute_error_path=os.path.join(PROJECT_DIR,"/test/test_data/corr.png")
+remain_4=['Days_Since_Last_Purchase', 'Total_Transactions','Total_Products_Purchased',\
+    'Total_Spend', 'Average_Transaction_Value','Unique_Products_Purchased',\
+    'Average_Days_Between_Purchases','Day_Of_Week','Hour', 'Is_UK', 'Cancellation_Frequency',\
+    'Cancellation_Rate', 'Monthly_Spending_Mean', 'Monthly_Spending_Std','Spending_Trend']
 
 def test_pca_file_not_found():
     """
@@ -19,15 +21,7 @@ def test_pca_file_not_found():
     """
     with pytest.raises(FileNotFoundError):
         # non-existent input file path
-        pc_analyzer(paths=("nonexistent_file.csv",path[1]),drop_cols=drop)
-
-def test_pca_savepath_error():
-    """
-    Test that raises an error when the output file directory path doesn't exist.
-    """
-    with pytest.raises(AssertionError):
-        # non-existent output file path
-        pc_analyzer(paths=(path[0],"src/test/test_pca_output.parquet"), drop_cols=drop)
+        pc_analyzer(in_path="nonexistent_file.csv")
 
 def test_missing_columns():
     """
@@ -35,17 +29,17 @@ def test_missing_columns():
     """
     with pytest.raises(KeyError):
         #Call the function with a non-existent file path
-        pc_analyzer(paths=path,drop_cols=['Days_Since_Purchase'])
+        pc_analyzer(out_path=OUTPUT_PATH,drop_cols=['Days_Since_Purchase'])
 
 def test_pca_outfile_exists():
     """
     Test that raises an error if output file does not exist.
     """
     try:
-        os.remove(path[1])
+        os.remove(OUTPUT_PATH)
     except FileNotFoundError:
         # Call the function with the sample data
-        pc_analyzer(paths=path,drop_cols=drop)
+        pc_analyzer(out_path=OUTPUT_PATH,drop_cols=drop)
         assert os.path.exists(OUTPUT_PATH)
 
 def test_cvr_thresh_error():
@@ -54,7 +48,7 @@ def test_cvr_thresh_error():
     """
     with pytest.raises(ValueError):
         #Call the function with a non-existent file path
-        pc_analyzer(paths=path,drop_cols=drop, cvr_thresh=80)
+        pc_analyzer(out_path=OUTPUT_PATH,drop_cols=drop, cvr_thresh=80)
 
 def test_pca_columnslessthan4():
     """
@@ -62,4 +56,4 @@ def test_pca_columnslessthan4():
     """
     with pytest.raises(ValueError):
         # Call the function with the sample data
-        pc_analyzer(paths=path, drop_cols=drop,cvr_thresh=80)
+        pc_analyzer(out_path=OUTPUT_PATH, drop_cols=remain_4)

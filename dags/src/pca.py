@@ -13,24 +13,24 @@ from sklearn.decomposition import PCA
 from prompt_toolkit.shortcuts import yes_no_dialog
 
 #Loading Config File
-PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 config_path = os.path.join(PAR_DIRECTORY,"config","feature_processing.json")
 with open(config_path, "rb") as f:
     config = json.load(f).get("pca")
 
 #Global variables
-__INGESTPATH__ = config.get("ingest_path") #default path in config
-__OUTPUTPATH__ = config.get("output_path") #default path in config
-__PATH__ = (__INGESTPATH__,__OUTPUTPATH__)
+__INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
+__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,config.get("output_path")) #default path in config
 NOT_COLUMNS = config.get("columns_not_considered")#columns wrt to defaults in config
 CVR_THRESHOLD = config.get("cvr_threshold")
 
-def pc_analyzer(paths=__PATH__,cvr_thresh=CVR_THRESHOLD,drop_cols=NOT_COLUMNS):
+def pc_analyzer(in_path=__INGESTPATH__,out_path=__OUTPUTPATH__,\
+    drop_cols=NOT_COLUMNS,cvr_thresh=CVR_THRESHOLD):
     """
     Global variables(can only be changed through Config file)
     Args:
     paths(str1,str2): str1:ingest_path, str2:output_path
-    cvr_threshold[float]: cumulative explained variance threshold for variance
+    CVR_THRESHOLDold[float]: cumulative explained variance threshold for variance
     drop_cols: column to be ommitted for pca
     """
     #Placeholder for data
@@ -38,12 +38,9 @@ def pc_analyzer(paths=__PATH__,cvr_thresh=CVR_THRESHOLD,drop_cols=NOT_COLUMNS):
 
     #File Loading
     try:
-        if str(paths[0]).endswith(".pkl"):
-            data = pd.read_pickle(paths[0])
-        else:
-            data = pd.read_parquet(paths[0])
+        data = pd.read_parquet(in_path)
     except FileNotFoundError:
-        raise FileNotFoundError(f"File not found at {paths[0]}.") from None
+        raise FileNotFoundError(f"File not found at {in_path}.") from None
 
     #Check datatype
     if not isinstance(data,pd.DataFrame):
@@ -55,13 +52,13 @@ def pc_analyzer(paths=__PATH__,cvr_thresh=CVR_THRESHOLD,drop_cols=NOT_COLUMNS):
     except AssertionError as exc:
         raise KeyError("Column not found in Dataframe.") from exc
 
-    #Check columns <3, PCA not required
+    #Check columns <4, PCA not required
     if len(data.columns)<4:
         raise ValueError("Columns less than 4. Need not proceed with PCA.")
 
-    #Value check for cvr_thresh
+    #Value check for CVR_THRESHOLD
     if not 0<cvr_thresh<1:
-        raise ValueError("cvr_thresh should lie between 0 and 1.")
+        raise ValueError("CVR_THRESHOLD should lie between 0 and 1.")
 
     #Selecting columns in data for PCA
     data.set_index('CustomerID', inplace=True)
@@ -81,22 +78,22 @@ def pc_analyzer(paths=__PATH__,cvr_thresh=CVR_THRESHOLD,drop_cols=NOT_COLUMNS):
 
     #saving data as parquet
     try:
-        p=os.path.dirname(paths[1])
+        p=os.path.dirname(out_path)
         if not os.path.exists(p):
-            raise AssertionError(f"Path: {paths[1]} does not exist.")
-        pca_transformed_data.to_parquet(paths[1])
-        print(f"File saved successfully at Path: {paths[1]}.")
+            os.makedirs(p)
+        pca_transformed_data.to_parquet(out_path)
+        print(f"File saved successfully at Path: {out_path}.")
     except FileExistsError:
         result = yes_no_dialog(
             title='File Exists Error',
             text="Existing file in use. Please close to overwrite the file. Error:.").run()
         if result:
-            pca_transformed_data.to_parquet(paths[1])
-            print(paths[1])
+            pca_transformed_data.to_parquet(out_path)
+            print(f"File saved successfully at Path: {out_path}.")
         else:
-            print(f"Could not save File at Path: {paths[1]}.")
+            print(f"Could not save File at Path: {out_path}.")
 
-    return paths[1]
+    return out_path
 
 def pca_(data,thresh):
     """
@@ -124,5 +121,3 @@ def pca_(data,thresh):
             break
     print(n,cumulative_var_ratio)
     return n
-
-pc_analyzer()

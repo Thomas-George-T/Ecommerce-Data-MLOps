@@ -10,7 +10,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT_FILE_PATH = os.path.join(PROJECT_DIR, "data", "processed","scaler_output.parquet")
 test_img_path =  os.path.join(PROJECT_DIR, "data", "test_data","corr.png")
 test_corr_path = os.path.join(PROJECT_DIR, "data", "test_data","corr.parquet")
-path=(INPUT_FILE_PATH,test_img_path,test_corr_path)
+OUTPUT_PATH=(test_img_path,test_corr_path)
 
 def test_correlation_filenotfound():
     """
@@ -18,15 +18,7 @@ def test_correlation_filenotfound():
     """
     with pytest.raises(FileNotFoundError):
         # Call the function with a non-existent file path
-        correlation_check(paths=("nonexistent_file.csv",path[1],path[2]))
-
-def test_correlation_imgpath_error():
-    """
-    Test that raises an error path is not a string.
-    """
-    # Add assertions based on expected outcomes
-    with pytest.raises(TypeError):
-        correlation_check(paths=(path[0],1233,path[2]))
+        correlation_check(in_path="nonexistent_file.csv")
 
 def test_correlation_parquetpath_error():
     """
@@ -34,7 +26,15 @@ def test_correlation_parquetpath_error():
     """
     # Add assertions based on expected outcomes
     with pytest.raises(TypeError):
-        correlation_check(paths=(path[0],path[1],1233))
+        correlation_check(out_path=(1233,OUTPUT_PATH[1]))
+
+def test_correlation_imagepath_error():
+    """
+    Test that raises an error path is not a string.
+    """
+    # Add assertions based on expected outcomes
+    with pytest.raises(TypeError):
+        correlation_check(out_path=(OUTPUT_PATH[0],1233))
 
 def test_correlation_imagesavecheck():
     """
@@ -42,11 +42,11 @@ def test_correlation_imagesavecheck():
     """
     # Call the function with the sample data
     try:
-        os.remove(path[1])
+        os.remove(OUTPUT_PATH[0])
     except FileNotFoundError:
         # Call the function with the sample data
-        correlation_check(paths=path)
-        assert os.path.exists(path[1])
+        correlation_check(out_path=OUTPUT_PATH)
+        assert os.path.exists(OUTPUT_PATH[0])
 
 def test_correlation_parquetsavecheck():
     """
@@ -54,11 +54,11 @@ def test_correlation_parquetsavecheck():
     """
     # Call the function with the sample data
     try:
-        os.remove(path[2])
+        os.remove(OUTPUT_PATH[1])
     except FileNotFoundError:
         # Call the function with the sample data
-        correlation_check(paths=path)
-        assert os.path.exists(path[2])
+        correlation_check(out_path=OUTPUT_PATH)
+        assert os.path.exists(OUTPUT_PATH[1])
 
 def test_corr_thresh_error():
     """
@@ -66,4 +66,4 @@ def test_corr_thresh_error():
     """
     with pytest.raises(ValueError):
         #Call the function with a non-existent file path
-        correlation_check(paths=path,correlation_threshold=80)
+        correlation_check(out_path=OUTPUT_PATH,correlation_threshold=80)

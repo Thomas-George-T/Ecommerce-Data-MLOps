@@ -6,8 +6,7 @@ lab01
 .pytest_cache
 *.pyo
 *.pyc
-.dvc/tmp/lock
-.dvc/tmp/rwlock.lock
+.dvc/tmp/
 
 
 # C extensions
@@ -80,8 +79,7 @@ env3
 env311
 
 # sub-directories
-dags/data/*
-!dags/data/__init__.py
+!dags/data/
 logs
 
 #vscode configs
