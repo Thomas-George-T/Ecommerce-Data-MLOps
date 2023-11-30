@@ -1,0 +1,6 @@
+outs:
+- md5: 9e61af3454b8d8424aa90ac01be0fcea.dir
+  size: 264946457
+  nfiles: 66
+  hash: md5
+  path: dags

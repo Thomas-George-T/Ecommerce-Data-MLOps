@@ -1,4 +1,6 @@
 ```mermaid
 flowchart TD
-	node1["data.dvc"]
+	node1["dags.dvc"]
+	node2["data.dvc"]
+	node3["logs.dvc"]
 ```

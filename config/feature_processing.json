@@ -1,0 +1,25 @@
+{   
+    "scaler":{
+        "ingest_path":"data/processed/after_outlier_treatment.pkl",
+        "output_path":"data/processed/scaler_output.parquet",
+        "standardize_columns":["Days_Since_Last_Purchase", "Total_Transactions",  
+                "Total_Spend", "Average_Transaction_Value","Unique_Products_Purchased", 
+                "Cancellation_Rate","Monthly_Spending_Mean","Monthly_Spending_Std","Spending_Trend"],
+        "normalize_columns":["Total_Products_Purchased","Average_Days_Between_Purchases","Cancellation_Frequency"]
+    },
+
+    "correlation":{
+        "ingest_path":"data/processed/scaler_output.parquet",
+        "image_path":"data/plots/correlation_heatmap.png",
+        "correlation_matrix_path":"data/processed/correlation_matrix.parquet",
+        "list_path":"data/plots/columns_high_correlation.txt",
+        "correlation_threshold": 0.5
+    },
+
+    "pca":{
+        "ingest_path":"data/processed/scaler_output.parquet",
+        "output_path":"data/processed/pca_output.parquet",
+        "columns_not_considered":[],
+        "cvr_threshold":0.8
+    }
+}
