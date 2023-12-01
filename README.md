@@ -105,6 +105,7 @@ docker compose down
 - Docker
 - Airflow
 - DVC
+- Google Cloud Platform (GCP)
 
 ## GitHub Actions
 
@@ -116,6 +117,26 @@ Only on a successful build, the feature branches be merged with the main.
 ## Docker and Airflow
 
 The `docker-compose.yaml` file contains the code neccessary to run Airflow. Through the use of Docker and containerization, we are able to ship our datapipeline with the required dependencies installed. This makes it platform indepedent, whether it is windows, mac or linux, our data pipeline should run smooth.
+
+## DVC 
+
+Data Versioning Control enables us for versioning of datasets and machine learning models, providing a snapshot of the data used for training and the corresponding code, which in turn allows reproducibility and traceability, ensuring that you can recreate any previous state of your project. DVC stores only meta-information, while the actual data remains in cloud storage or other remote locations.DVC easily integrates with Git, thus it allowed us to use Git repositories for managing code and DVC repositories for managing data and models. This dual-repository approach helps keep the codebase clean and lightweight.
+
+![How DVC works](assets/dvc-working.png)
+
+## Google Cloud Platform (GCP)
+
+Our data version control is tracked and hosted on Google Cloud Platform. Google Cloud seamlessly hosts large dataset and its versioning for developing robust ETL pipelines. Multiple Users can access and update the data at once, while inherent support for versioning helps retrieve older versions effortlessly.
+
+GCP allowed us to implement the ETL effieciently while maintaining intermittent files for all the modularized tasks.
+
+1. All one needs to do is initialize a service account to utilize Google Cloud Platform services.
+2. Like for every other remote, one needs to download SSH key for remote access.
+
+[Link to view our Files tracked by DVC on Google Cloud Platform](https://console.cloud.google.com/storage/browser/custseg_dvc_store)
+
+![DVC Image](assets/dvc.png)
+Pictured: Our data files tracked by DVC in GCP
 
 <hr>
 
@@ -220,5 +241,24 @@ Next Step is to initialize the airflow database the first time as shown in `User
 
 If everything is done right, you should be able to see your module in th DAG. In case of errors, we can access the logs and debug as neccessary.
 
+## DVC
+
+Steps to initialize and track files using DVC
+
+1. Initialize dvc in the parent directory of your local repository.
+    ```python
+    dvc remote add -d temp /tmp/dvcstore
+    ```
+2. Set up remote bucket.
+    ```python
+    dvc remote add -d temp /tmp/dvcstore
+    ```
+3. Add the location as default to your remote bucket.
+    ```python
+    dvc remote add -d myremote gs://<mybucket>/<path>
+    ```
+4. Don't forget to modify your credentials.
+    ```python
+    dvc remote modify --lab2 credentialpath <YOUR JSON TOKEN>```
 
 <hr>
