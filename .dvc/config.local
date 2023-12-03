@@ -1,0 +1,4 @@
+['remote "custseg_dvc_store"']
+    credentialpath = "S:\NEU\Courses_Academic\IE7374_MLOps\customersegmentation-404405-7ac1e10952d0.json"
+['remote "dags_data"']
+    credentialpath = "S:\NEU\Courses_Academic\IE7374_MLOps\customersegmentation-404405-619d0e18ebe7.json"
