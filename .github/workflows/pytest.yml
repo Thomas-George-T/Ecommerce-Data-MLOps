@@ -3,11 +3,7 @@ on:
   push:
     branches:
       - main
-      - feature_thomas
-      - feature_moheth
-      - feature_bardia
-      - feature_komal
-      - feature_ashkan
+      - feature_*
   pull_request:
     branches:
       - main

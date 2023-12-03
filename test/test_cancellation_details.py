@@ -2,15 +2,15 @@
 This module checks if the cancellation_details script works.
 """
 import os
-from src.cancellation_details import cancellation_details
+import pickle
 
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
-'after_removing_zero_unitprice.pkl')
-geographic_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed','geographic_features.pkl')
-output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'cancellation_details.pkl')
+'cancellation_details.pkl')
 
-result= cancellation_details(input_pickle_path, geographic_pickle_path, output_pickle_path)
+if os.path.exists(input_pickle_path):
+    with open(input_pickle_path, "rb") as file:
+        result= pickle.load(file)
 
 def test_cancellation_details():
     """

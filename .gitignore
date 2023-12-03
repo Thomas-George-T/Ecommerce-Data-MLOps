@@ -6,6 +6,8 @@ lab01
 .pytest_cache
 *.pyo
 *.pyc
+.dvc/tmp/
+
 
 # C extensions
 *.so
@@ -28,6 +30,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+Scripts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -76,6 +79,9 @@ env3
 env311
 
 # sub-directories
-dags/data/*
-!dags/data/__init__.py
+!dags/data/
 logs
+
+#vscode configs
+.vscode
+.vs

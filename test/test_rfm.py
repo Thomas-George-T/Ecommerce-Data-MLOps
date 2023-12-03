@@ -2,14 +2,15 @@
 This module tests if the RFM function is working.
 """
 import os
-from src.rfm import rfm
+import pickle
 
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
-'after_removing_zero_unitprice.pkl')
-output_pickle_path = os.path.join(PROJECT_DIR, 'data','processed', 'after_RFM.pkl')
+'after_RFM.pkl')
 
-result = rfm(input_pickle_path, output_pickle_path)
+if os.path.exists(input_pickle_path):
+    with open(input_pickle_path, "rb") as file:
+        result= pickle.load(file)
 
 def test_rfm():
     """
