@@ -2,6 +2,8 @@
   This module returns a dataframe with top three products which individual customers has not purchased yet based on the top purchased products from their corresponding cluster.
   """
   
+  import pandas as pd
+  
   # Removing outliers from transactions dataframe
   def remove_outliers(df, outliers_data):
     """
@@ -122,4 +124,39 @@ def create_recommendations(customer_data, top_products_per_cluster, customer_pur
             recommendations.append([customer, cluster] + recommended_items)
 
     return recommendations
+
+# orchestrate the recommendation generation process by utilizing the previously defined functions
+def generate_recommendations(df, outliers_data, customer_data_cleaned):
+    """
+    Generates product recommendations for each customer based on clustering.
+
+    Parameters:
+    df (DataFrame): Transaction data.
+    outliers_data (DataFrame): Data of outlier customers.
+    customer_data_cleaned (DataFrame): Cleaned customer data with clustering info.
+
+    Returns:
+    DataFrame: Recommendations for each customer.
+    """
+    # Step 1: Remove outliers from the transaction data
+    df_filtered = remove_outliers(df, outliers_data)
+
+    # Step 2: Merge the transaction data with customer data to get cluster information
+    merged_data = merge_customer_transactions(df_filtered, customer_data_cleaned)
+
+    # Step 3: Identify top-selling products in each cluster
+    top_products_per_cluster = identify_top_products(merged_data)
+
+    # Step 4: Record the products purchased by each customer
+    customer_purchases = record_customer_purchases(merged_data)
+
+    # Step 5: Generate personalized product recommendations
+    recommendations_list = create_recommendations(customer_data_cleaned, top_products_per_cluster, customer_purchases)
+
+    # Step 6: Convert the recommendations list to a DataFrame
+    recommendations_columns = ['CustomerID', 'cluster', 'Rec1_StockCode', 'Rec1_Description',
+                               'Rec2_StockCode', 'Rec2_Description', 'Rec3_StockCode', 'Rec3_Description']
+    recommendations_df = pd.DataFrame(recommendations_list, columns=recommendations_columns)
+
+    return recommendations_df
 
