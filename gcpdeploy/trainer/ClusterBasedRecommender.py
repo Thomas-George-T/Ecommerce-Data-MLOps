@@ -85,4 +85,41 @@ def record_customer_purchases(merged_data):
 
     return customer_purchases
 
-# 
+# generate product recommendations for each customer
+def create_recommendations(customer_data, top_products_per_cluster, customer_purchases):
+    """
+    Generates product recommendations for each customer based on the top products 
+    in their cluster and their purchase history.
+
+    Parameters:
+    customer_data (DataFrame): Cleaned customer data with cluster information.
+    top_products_per_cluster (DataFrame): Dataframe of top 10 products for each cluster.
+    customer_purchases (DataFrame): Dataframe detailing products purchased by each customer.
+
+    Returns:
+    list: A list of recommendations for each customer.
+    """
+    recommendations = []
+
+    for cluster in top_products_per_cluster['cluster'].unique():
+        # Retrieve top products for the current cluster
+        top_products = top_products_per_cluster[top_products_per_cluster['cluster'] == cluster]
+        customers_in_cluster = customer_data[customer_data['cluster'] == cluster]['CustomerID']
+        
+        for customer in customers_in_cluster:
+            # Identify products already purchased by the customer
+            customer_purchased_products = customer_purchases[
+                (customer_purchases['CustomerID'] == customer) & 
+                (customer_purchases['cluster'] == cluster)
+            ]['StockCode'].tolist()
+            
+            # Find top products in the best-selling list that the customer hasn't purchased yet
+            top_products_not_purchased = top_products[~top_products['StockCode'].isin(customer_purchased_products)]
+            top_3_products_not_purchased = top_products_not_purchased.head(3)
+            
+            # Append the recommendations to the list
+            recommended_items = top_3_products_not_purchased[['StockCode', 'Description']].values.flatten().tolist()
+            recommendations.append([customer, cluster] + recommended_items)
+
+    return recommendations
+
