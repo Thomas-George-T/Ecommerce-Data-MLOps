@@ -68,3 +68,21 @@ def identify_top_products(merged_data):
     return top_products_per_cluster
 
 # create a record of products purchased by each customer in each cluster
+def record_customer_purchases(merged_data):
+    """
+    Creates a record of the quantities of each product purchased by each customer 
+    in each cluster.
+
+    Parameters:
+    merged_data (DataFrame): The dataframe from merging transaction data with 
+                             customer cluster information.
+
+    Returns:
+    DataFrame: A dataframe detailing customer purchases in each cluster.
+    """
+    # Group by CustomerID, cluster, and StockCode and sum the quantities
+    customer_purchases = merged_data.groupby(['CustomerID', 'cluster', 'StockCode'])['Quantity'].sum().reset_index()
+
+    return customer_purchases
+
+# 
