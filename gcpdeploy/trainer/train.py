@@ -279,6 +279,95 @@ def save_and_upload_model(model, local_model_path, gcs_model_path):
     with fs.open(gcs_model_path, 'wb') as f:
         joblib.dump(model, f)
 
+def silhouette_analysis(df, figsize=(25, 25)):
+
+    start_k = 2
+    stop_k = 15
+
+    # Set the size of the figure
+    plt.figure(figsize=figsize)
+
+    # Create a grid with (stop_k - start_k + 1) rows and 2 columns
+    grid = gridspec.GridSpec(stop_k - start_k + 1, 2)
+
+    # Assign the first plot to the first row and both columns
+    first_plot = plt.subplot(grid[0, :])
+
+    # First plot: Silhouette scores for different k values
+    sns.set_palette(['darkorange'])
+    
+    silhouette_scores = []
+
+    for k in range(start_k, stop_k + 1):
+        km = KMeans(n_clusters=k, init='k-means++', n_init=10, max_iter=100, random_state=0)
+        km.fit(df)
+        labels = km.predict(df)
+        score = silhouette_score(df, labels)
+        silhouette_scores.append(score)
+
+    best_k = start_k + silhouette_scores.index(max(silhouette_scores))
+
+    plt.plot(range(start_k, stop_k + 1), silhouette_scores, marker='o')
+    plt.xticks(range(start_k, stop_k + 1))
+    plt.xlabel('Number of clusters (k)')
+    plt.ylabel('Silhouette score')
+    plt.title('Average Silhouette Score for Different k Values', fontsize=15)
+
+    # Add the optimal k value text to the plot
+    optimal_k_text = f'The k value with the highest Silhouette score is: {best_k}'
+    plt.text(10, 0.23, optimal_k_text, fontsize=12, verticalalignment='bottom', 
+             horizontalalignment='left', bbox=dict(facecolor='#fcc36d', edgecolor='#ff6200', boxstyle='round, pad=0.5'))
+             
+
+    # Second plot (subplot): Silhouette plots for each k value
+    colors = sns.color_palette("bright")
+
+    for i in range(start_k, stop_k + 1):    
+        km = KMeans(n_clusters=i, init='k-means++', n_init=10, max_iter=100, random_state=0)
+        row_idx, col_idx = divmod(i - start_k, 2)
+
+        # Assign the plots to the second, third, and fourth rows
+        ax = plt.subplot(grid[row_idx + 1, col_idx])
+
+        visualizer = SilhouetteVisualizer(km, colors=colors, ax=ax)
+        visualizer.fit(df)
+
+        # Add the Silhouette score text to the plot
+        score = silhouette_score(df, km.labels_)
+        ax.text(0.97, 0.02, f'Silhouette Score: {score:.2f}', fontsize=12, \
+                ha='right', transform=ax.transAxes, color='red')
+
+        ax.set_title(f'Silhouette Plot for {i} Clusters', fontsize=15)
+
+    plt.tight_layout()
+    plt.show()
+
+    return best_k
+
+
+def kmeans_clustring(df_cleaned,df_pca, number_of_clusters=3):
+
+    kmeans = KMeans(n_clusters=number_of_clusters, init='k-means++', n_init=10, max_iter=100, random_state=0)
+    kmeans.fit(df_pca)
+
+    cluster_frequencies = Counter(kmeans.labels_)
+
+
+    label_mapping = {label: new_label for new_label, (label, _) in
+                 enumerate(cluster_frequencies.most_common())}
+
+    label_mapping = {v: k for k, v in {2: 1, 1: 0, 0: 2}.items()}
+
+
+    new_labels = np.array([label_mapping[label] for label in kmeans.labels_])
+
+
+    df_cleaned['cluster'] = new_labels
+    df_pca['cluster'] = new_labels              
+    
+    return df_cleaned, df_pca
+
+
 def main():
     """
     Main function to orchestrate the loading of data, training of the model,
