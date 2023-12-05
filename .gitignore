@@ -77,6 +77,8 @@ src/.DS_Store
 # Virtal environment
 env3
 env311
+myenv
+env39
 
 # sub-directories
 !dags/data/
