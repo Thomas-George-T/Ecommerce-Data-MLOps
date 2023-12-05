@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - feature_*
+      - feature_machine_learning
   pull_request:
     branches:
       - main
