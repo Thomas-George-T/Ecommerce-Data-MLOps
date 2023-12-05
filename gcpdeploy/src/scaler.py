@@ -5,7 +5,6 @@ Input: Path string to load pickle/parquet file.
 Output: Path string for parquet file.
 """
 import os
-import json
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
@@ -13,15 +12,14 @@ from prompt_toolkit.shortcuts import yes_no_dialog
 
 #Loading Config File
 PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-config_path = os.path.join(PAR_DIRECTORY,"config","feature_processing.json")
-with open(config_path, "rb") as f:
-    config = json.load(f).get("scaler")
 
 #Global variables
-__INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,config.get("output_path")) #default path in config
-S_COLS = config.get("standardize_columns")#columns wrt to defaults in config
-N_COLS = config.get("normalize_columns")#columns wrt to defaults in config
+__INGESTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', 'after_outlier_treatment.pickle')
+__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', 'scaler_output.parquet')
+S_COLS = ["Days_Since_Last_Purchase", "Total_Transactions",  \
+                "Total_Spend", "Average_Transaction_Value","Unique_Products_Purchased", \
+                "Cancellation_Rate","Monthly_Spending_Mean","Monthly_Spending_Std","Spending_Trend"],
+N_COLS = ["Total_Products_Purchased","Average_Days_Between_Purchases","Cancellation_Frequency"]
 COLS=(S_COLS,N_COLS)
 
 def scaler(in_path=__INGESTPATH__,out_path=__OUTPUTPATH__, cols=COLS):

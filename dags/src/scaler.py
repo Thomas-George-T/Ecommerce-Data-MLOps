@@ -12,14 +12,14 @@ from sklearn.preprocessing import Normalizer
 from prompt_toolkit.shortcuts import yes_no_dialog
 
 #Loading Config File
-PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PAR_DIRECTORY =os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 config_path = os.path.join(PAR_DIRECTORY,"config","feature_processing.json")
 with open(config_path, "rb") as f:
     config = json.load(f).get("scaler")
 
 #Global variables
 __INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,config.get("output_path")) #default path in config
+__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,"dags",config.get("output_path")) #default path
 S_COLS = config.get("standardize_columns")#columns wrt to defaults in config
 N_COLS = config.get("normalize_columns")#columns wrt to defaults in config
 COLS=(S_COLS,N_COLS)
