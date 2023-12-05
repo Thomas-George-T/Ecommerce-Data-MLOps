@@ -20,7 +20,7 @@ with open(config_path, "rb") as f:
 
 #Global variables
 __INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,config.get("output_path")) #default path in config
+__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,"dags",config.get("output_path")) #default path in config
 NOT_COLUMNS = config.get("columns_not_considered")#columns wrt to defaults in config
 CVR_THRESHOLD = config.get("cvr_threshold")
 
