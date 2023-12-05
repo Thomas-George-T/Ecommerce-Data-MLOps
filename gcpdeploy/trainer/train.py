@@ -2,21 +2,21 @@ from google.cloud import storage
 from datetime import datetime
 import pytz
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+# from sklearn.model_selection import train_test_split
+# from sklearn.ensemble import RandomForestRegressor
 from sklearn.cluster import KMeans
 import joblib
 import json
 import gcsfs
 import os
-import pickle
+# import pickle
 from dotenv import load_dotenv
-import plotly.graph_objects as go
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import plotly.graph_objects as go
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
-from tabulate import tabulate
+# from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
+# from tabulate import tabulate
 from collections import Counter
 
 from ClusterBasedRecommender import generate_recommendations
@@ -78,7 +78,7 @@ def main():
     # df = load_data(gcs_train_data_path)
     # X_train, X_test, y_train, y_test = data_transform(df)
 
-    data_dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "processed")
+    data_dir_path = os.path.dirname(os.path.abspath(__file__))
 
     pca_output = pd.read_parquet(data_dir_path + "/pca_output.parquet")
     after_outlier = pd.read_pickle(data_dir_path + "/after_outlier_treatment.pkl")
@@ -87,9 +87,9 @@ def main():
     
     # Training
     customer_data_cleaned, model, customer_data_pca = kmeans_clustering(after_outlier, pca_output)
-    print(f"clustering ran successfully!")
+    print("clustering ran successfully!")
     recommendations_df = generate_recommendations(df_transactions, outliers_data, customer_data_cleaned)
-    print(f"recommendations_df generated successfully!")
+    print("recommendations_df generated successfully!")
     print(recommendations_df.shape)
 
     # Train the model

@@ -38,7 +38,9 @@ def merge_customer_transactions(df, customer_data_cleaned):
   DataFrame: A merged dataframe including both transaction and cluster data.
   """
   # Ensure consistent data type for CustomerID across both dataframes before merging
-  df.loc[:, 'CustomerID'] = df['CustomerID'].astype('float')
+  df = df.copy()
+  df['CustomerID'] = df['CustomerID'].astype('float')
+
   customer_data_cleaned['CustomerID'] = customer_data_cleaned['CustomerID'].astype('float')
 
   # Merge the transaction data with the customer data
