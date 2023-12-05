@@ -34,4 +34,4 @@ matplotlib==3.7.4
 tensorflow-data-validation==1.14.0
 tabulate==0.9.0
 yellowbrick==1.5
-collections
+collection
