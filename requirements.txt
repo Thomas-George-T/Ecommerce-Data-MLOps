@@ -32,3 +32,4 @@ scipy==1.10.1
 seaborn==0.13.0
 matplotlib==3.7.4
 tensorflow-data-validation==1.14.0
+plotly==5.18.0

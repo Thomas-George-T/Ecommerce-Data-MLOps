@@ -8,11 +8,13 @@ import numpy as np
 import scipy.stats as sc
 
 PROJECT_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-input_pickle_path=os.path.join(PROJECT_DIR, 'data',
+input_pickle_path=os.path.join(PROJECT_DIR, 'data', 'processed',
 'after_removing_zero_unitprice.pkl')
-cancellation_pickle_path=os.path.join(PROJECT_DIR, 'data','cancellation_details.pkl')
-output_pickle_path = os.path.join(PROJECT_DIR, 'data', 'seasonality.pkl')
-transaction_filepath = os.path.join(PROJECT_DIR, 'data','transaction_dataframe.parquet')
+cancellation_pickle_path=os.path.join(PROJECT_DIR, 'data','processed',
+                                    'cancellation_details.pkl')
+output_pickle_path = os.path.join(PROJECT_DIR, 'data', 'processed', 'seasonality.pkl')
+transaction_filepath = os.path.join(PROJECT_DIR, 'data','processed',
+                                    'transaction_dataframe.parquet')
 
 def seasonality_impacts(input_pickle_file=input_pickle_path,
 cancellation_pickle_file=cancellation_pickle_path, output_pickle_file=output_pickle_path,
