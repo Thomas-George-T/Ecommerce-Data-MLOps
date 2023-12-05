@@ -27,8 +27,8 @@ with open(config_path, "rb") as f:
 
 #Global variables
 __INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__IMGPATH__ = os.path.join(PAR_DIRECTORY,config.get("image_path")) #default path in config
-__PARQUETPATH__ = os.path.join(PAR_DIRECTORY,config.get("correlation_matrix_path")) #default path
+__IMGPATH__ = os.path.join(PAR_DIRECTORY,"dags",config.get("image_path")) #default path in config
+__PARQUETPATH__ = os.path.join(PAR_DIRECTORY,"dags",config.get("correlation_matrix_path")) 
 corr_thresh = config.get("correlation_threshold") # in config
 __OUTPUTPATH__=(__IMGPATH__,__PARQUETPATH__)
 

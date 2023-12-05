@@ -6,23 +6,19 @@ Input: Path string to load pickle/parquet file.
 Output: Path string for parquet file.
 """
 import os
-import json
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from prompt_toolkit.shortcuts import yes_no_dialog
 
 #Loading Config File
-PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-config_path = os.path.join(PAR_DIRECTORY,"config","feature_processing.json")
-with open(config_path, "rb") as f:
-    config = json.load(f).get("pca")
+PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #Global variables
-__INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,config.get("output_path")) #default path in config
-NOT_COLUMNS = config.get("columns_not_considered")#columns wrt to defaults in config
-CVR_THRESHOLD = config.get("cvr_threshold")
+__INGESTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', 'scaler_output.parquet') #default 
+__OUTPUTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', 'pca_output.parquet') #default 
+NOT_COLUMNS = None#columns wrt to defaults in config
+CVR_THRESHOLD = 0.8
 
 def pc_analyzer(in_path=__INGESTPATH__,out_path=__OUTPUTPATH__,\
     drop_cols=NOT_COLUMNS,cvr_thresh=CVR_THRESHOLD):
