@@ -11,7 +11,7 @@ from sklearn.preprocessing import Normalizer
 from prompt_toolkit.shortcuts import yes_no_dialog
 
 #Loading Config File
-PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 #Global variables
 __INGESTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', 'after_outlier_treatment.pickle')
