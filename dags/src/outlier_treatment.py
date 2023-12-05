@@ -13,7 +13,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','seasonality.pkl')
 OUTPUT_PICKLE_PATH = os.path.join(PROJECT_DIR, 'data', 'processed','after_outlier_treatment.pkl')
 
-parquet_file_path = os.path.join(PROJECT_DIR, 'data', 'processed','after_outlier_treatment.parquet')
+parquet_file_path = os.path.join(PROJECT_DIR, 'data', 'processed','df_outlier.parquet')
 
 def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUTPUT_PICKLE_PATH):
     """
@@ -35,6 +35,8 @@ def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUT
 
     df['Is_Outlier'] = [1 if x == -1 else 0 for x in df['Outlier_Scores']]
 
+    df_outlier = df[df['Is_Outlier'] == 1]
+
     df_cleaned = df[df['Is_Outlier'] == 0]
 
     #dropping the columns
@@ -43,7 +45,7 @@ def removing_outlier(input_pickle_path=INPUT_PICKLE_PATH, output_pickle_path=OUT
     #reseting the index
     df_cleaned.reset_index(drop=True, inplace=True)
 
-    df_cleaned.to_parquet(parquet_file_path, index=False)
+    df_outlier.to_parquet(parquet_file_path, index=False)
 
 
     with open(output_pickle_path, "wb") as file:
