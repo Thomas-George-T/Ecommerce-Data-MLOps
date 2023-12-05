@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-lab01
 .pytest_cache
 *.pyo
 *.pyc
@@ -78,6 +77,7 @@ src/.DS_Store
 env3
 env311
 myenv
+lab01
 
 # sub-directories
 !dags/data/
@@ -86,3 +86,6 @@ logs
 #vscode configs
 .vscode
 .vs
+
+# environment files
+.env

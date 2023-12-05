@@ -35,3 +35,4 @@ tensorflow-data-validation==1.14.0
 tabulate==0.9.0
 yellowbrick==1.5
 collection==0.1.6
+google-cloud-storage
