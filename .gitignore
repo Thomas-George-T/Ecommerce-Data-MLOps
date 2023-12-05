@@ -81,9 +81,12 @@ myenv
 env39
 
 # sub-directories
-!dags/data/
+dags/data/
+!dags/__init__.py
 logs
 
 #vscode configs
 .vscode
 .vs
+
+.env
