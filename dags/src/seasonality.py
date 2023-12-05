@@ -12,9 +12,11 @@ input_pickle_path=os.path.join(PROJECT_DIR, 'data',
 'after_removing_zero_unitprice.pkl')
 cancellation_pickle_path=os.path.join(PROJECT_DIR, 'data','cancellation_details.pkl')
 output_pickle_path = os.path.join(PROJECT_DIR, 'data', 'seasonality.pkl')
+transaction_filepath = os.path.join(PROJECT_DIR, 'data','transaction_dataframe.parquet')
 
 def seasonality_impacts(input_pickle_file=input_pickle_path,
-cancellation_pickle_file=cancellation_pickle_path, output_pickle_file=output_pickle_path):
+cancellation_pickle_file=cancellation_pickle_path, output_pickle_file=output_pickle_path,
+data_filepath=transaction_filepath):
     """
     Calculate seasonality impacts and trends for customer spending.
 
@@ -37,10 +39,8 @@ cancellation_pickle_file=cancellation_pickle_path, output_pickle_file=output_pic
     df['InvoiceDate'] = pd.to_datetime(df['InvoiceDate'])
     df['Year'] = df['InvoiceDate'].dt.year
     df['Month'] = df['InvoiceDate'].dt.month
-
-    filepath=r'C:\DAE\MLOps\Project\Ecommerce-Data-MLOps\dags\data\transaction_dataframe.parquet'
     df['StockCode'] = df['StockCode'].astype(str).apply(lambda x: x.encode('utf-8'))
-    df.to_parquet(filepath)
+    df.to_parquet(data_filepath)
     monthly_spending = df.groupby(['CustomerID', 'Year',
     'Month'])['Total_Spend'].sum().reset_index()
     seasonal_buying_patterns =(
