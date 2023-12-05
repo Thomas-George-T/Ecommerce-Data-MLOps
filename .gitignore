@@ -78,6 +78,7 @@ src/.DS_Store
 env3
 env311
 myenv
+env39
 
 # sub-directories
 !dags/data/
