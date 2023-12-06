@@ -222,21 +222,22 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
   The model is analysed by the Silhouette_Analysis function.
 
 
-   ![Silhouette_Analysis](../assets/Silhouette_analysis.png)
+   ![Silhouette_Analysis](assets/Silhouette_analysis.png)
 
 <p align="center">The plot above shows the silhouette score plots for different number of clusters. The closer it is to +1, the better it is</p>
   
   #### Model Efficacy Report and Visuals  
   The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score. Below are the visuals of clusters formed after PCA and the distribution of customers into clusters.
   
-   ![3D_Visualization_of_clusters](../assets/3D_Visualization_of_clusters.png)
+   ![3D_Visualization_of_clusters](assets/3D_Visualization_of_clusters.png)
 
    <p align="center">The plot above visualises the clusters of customers.</p>
    
-   ![Distribution_of_clusters](../assets/Distribtion_customers.png)
+   ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
  
+
 <hr>
 
 # Contributing / Development Guide
