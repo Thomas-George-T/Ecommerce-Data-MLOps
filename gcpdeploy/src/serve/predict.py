@@ -4,6 +4,7 @@ import joblib
 import os
 import json
 from dotenv import load_dotenv
+import pandas as pd
 
 load_dotenv()
 

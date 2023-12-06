@@ -7,7 +7,7 @@ WORKDIR /app
 COPY serve/predict.py /app/
 
 # Install Flask and google-cloud-storage
-RUN pip install Flask google-cloud-storage joblib scikit-learn grpcio gcsfs python-dotenv
+RUN pip install Flask google-cloud-storage joblib scikit-learn grpcio gcsfs python-dotenv pandas
 
 ENV AIP_STORAGE_URI=gs://ecommerce_retail_online_mlops/model
 ENV AIP_HEALTH_ROUTE=/ping
