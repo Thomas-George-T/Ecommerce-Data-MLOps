@@ -109,8 +109,6 @@ docker compose down
 - MLflow
 - TensorFlow
 
-
-
 ## GitHub Actions
 
 GitHub Actions workflows are set on push and on pull requests for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
