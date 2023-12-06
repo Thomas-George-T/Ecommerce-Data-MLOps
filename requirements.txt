@@ -41,3 +41,4 @@ collection==0.1.6
 google-cloud-storage
 gcsfs
 python-dotenv
+grpcio==1.51.3
