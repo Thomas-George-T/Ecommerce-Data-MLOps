@@ -165,7 +165,7 @@ Pictured: Our Airflow DAG
 
 The following is the explanation of our Data pipeline DAG
 
-# Project Components
+## Data Pipeline Components
 
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
@@ -200,15 +200,45 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 
 <hr>
 
-# Machine Learning Pipeline
+# Machine Learning Modeling Pipeline
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
 
+## Experimental tracking pipeline (MLFLOW)
+
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
 
+## Staging, Production and Archived models (MLFLOW)
 In managing models for Staging, Production, and Archiving, we rely on MLflow.
 
-Read more about how we used MLOps and our machine learning modeling pipelines [here](gcpdeploy/README.md)
+## Model Pipeline
+   #### Train the model 
+   The model is trained using K-Means_Clustering function. It takes 3 inputs and gives 2 outputs. The three inputs are PCA dataframe, transaction dataframe and number of clusters. The outputs are PCA dataframe and transaction dataframe with 'cluster' columns.
+   #### Save the model 
+   The model is saved locally using save_and_upload_model function and uploaded to GCS.
+   #### Hyper Parameter Tuning
+   The model has four hyper-parameters namely init, n_init, number of iterations and number of clusters in model_analysis(). Also, we used MLFLOW for checking models with multiple parameters by changing cluster numbers in centroid seeds.
+  #### Model Analysis 
+  The model is analysed by the Silhouette_Analysis function.
+
+
+   ![Silhouette_Analysis](assets/Silhouette_analysis.png)
+
+<p align="center">The plot above shows the silhouette score plots for different number of clusters. The closer it is to +1, the better it is</p>
+  
+  #### Model Efficacy Report and Visuals  
+  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score. Below are the visuals of clusters formed after PCA and the distribution of customers into clusters.
+  
+   ![3D_Visualization_of_clusters](assets/3D_Visualization_of_clusters.png)
+
+   <p align="center">The plot above visualises the clusters of customers.</p>
+   
+   ![Distribution_of_clusters](assets/Distribtion_customers.png)
+
+   <p align="center">The plot above visualises the distribution of customers into clusters.</p>
+ 
+
+<hr>
 
 # Contributing / Development Guide
 
