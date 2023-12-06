@@ -106,6 +106,8 @@ docker compose down
 - Airflow
 - DVC
 - Google Cloud Platform (GCP)
+- MLflow
+- TensorFlow
 
 ## GitHub Actions
 
