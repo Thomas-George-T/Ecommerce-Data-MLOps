@@ -19,6 +19,10 @@ from mlflow.models import infer_signature
 #Loading file
 PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 __INGESTPATH__ = os.path.join(PAR_DIRECTORY,"data", "processed", "pca_output.parquet")
+CLUSTERS=[3,4,8]
+INIT_SEEDS=[1,2,5,10,20,50]
+INIT_TYPE=['k-means++','random']
+ITERS=[100,250,500,1000]
 
 #Loggong Declarations
 logging.basicConfig(level=logging.WARN)
@@ -37,15 +41,10 @@ def mlflow_logging_train(data_path):
     except Exception as e:
         logger.exception("Unable to Load file. Error: %s", e)
 
-    clusters=[3,4,8]
-    init_seeds=[1,2,5,10,20,50]
-    init_type=['k-means++','random']
-    iters=[100,250,500,1000]
-
-    for a in init_seeds:
-        for b in iters:
-            for c in clusters:
-                for d in init_type:
+    for a in INIT_SEEDS:
+        for b in ITERS:
+            for c in CLUSTERS:
+                for d in INIT_TYPE:
 
                     with mlflow.start_run() as run:
                         run_name = datetime.now().strftime("%Y%m%d-%H%M%S")
