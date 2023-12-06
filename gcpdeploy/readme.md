@@ -14,10 +14,10 @@
 
    ![Silhouette_Analysis](../assets/Silhouette_analysis.png)
 
-<p align="center">The plot above shows the silhouette score plots for different number of clusters. THe closer it is to +1, the better it is</p>
+<p align="center">The plot above shows the silhouette score plots for different number of clusters. The closer it is to +1, the better it is</p>
   
   #### Model Efficacy Report and Visuals  
-  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score and plots were visualized.
+  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score. Below are the visuals of clusters formed after PCA and the distribution of customers into clusters.
   
    ![3D_Visualization_of_clusters](../assets/3D_Visualization_of_clusters.png)
 
