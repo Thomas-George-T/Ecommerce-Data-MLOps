@@ -7,10 +7,9 @@ ENV AIP_STORAGE_URI=gs://ecommerce_retail_online_mlops/model
 ENV BUCKET_NAME=ecommerce_retail_online_mlops
 
 # Copy current directory contents
-# COPY trainer /trainer
+
 COPY trainer/train.py /app/
 COPY trainer/ClusterBasedRecommender.py /app/
-# COPY ClusterBasedRecommender.py /trainer
 
 # Install required dependencies
 RUN pip install --no-cache-dir pandas google-cloud-storage scikit-learn joblib grpcio gcsfs python-dotenv pyarrow
