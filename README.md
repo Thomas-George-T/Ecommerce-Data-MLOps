@@ -191,6 +191,16 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 
 <hr>
 
+# Machine Learning Pipeline
+
+We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
+
+For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
+
+In managing models for Staging, Production, and Archiving, we rely on MLflow.
+
+Read more about how we used MLOps and our machine learning modeling pipelines [here](gcpdeploy/README.md)
+
 # Contributing / Development Guide
 
 **This is the user guide for developers**
