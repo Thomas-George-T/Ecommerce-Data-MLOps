@@ -1,7 +1,7 @@
 # Machine Learning Modelling Pipeline
 ## Experimental tracking pipeline (MLFLOW)
 ## Staging, Production and Archived models (MLFLOW)
-## Model Pipeline:
+## Model Pipeline
    #### Train the model 
    The model is trained using K-Means_Clustering function. It takes 3 inputs and gives 2 outputs. The three inputs are PCA dataframe, transaction dataframe and number of clusters. The outputs are PCA dataframe and transaction dataframe with 'cluster' columns.
    #### Save the model 
@@ -14,10 +14,10 @@
 
    ![Silhouette_Analysis](../assets/Silhouette_analysis.png)
 
-<p align="center">The plot above shows the silhouette score plots for different number of clusters</p>
+<p align="center">The plot above shows the silhouette score plots for different number of clusters. The closer it is to +1, the better it is</p>
   
   #### Model Efficacy Report and Visuals  
-  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score and plots were visualized.
+  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score. Below are the visuals of clusters formed after PCA and the distribution of customers into clusters.
   
    ![3D_Visualization_of_clusters](../assets/3D_Visualization_of_clusters.png)
 
