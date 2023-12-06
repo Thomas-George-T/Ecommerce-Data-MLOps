@@ -8,6 +8,8 @@
         <img height=100 src="https://cdn.svgporn.com/logos/airflow-icon.svg" alt="Airflow" title="Airflow" hspace=20 /> 
         <img height=100 src="https://cdn.svgporn.com/logos/tensorflow.svg" alt="Tensorflow" title="Tensorflow" hspace=20 /> 
         <img height=100 src="https://cdn.svgporn.com/logos/docker-icon.svg" alt="Docker" title="Docker" hspace=20 />
+        <img height=100 src="https://cdn.svgporn.com/logos/google-cloud.svg" alt="Google Cloud Platform" title="Google Cloud Platform" hspace=20 /> 
+        <img height=100 src="https://cdn.svgporn.com/logos/flask.svg" alt="Flask" title="Flask" hspace=20 /> 
   </a>	
 </p>
 <br>
@@ -108,6 +110,7 @@ docker compose down
 - Google Cloud Platform (GCP)
 - MLflow
 - TensorFlow
+- Flask
 
 ## GitHub Actions
 
@@ -187,6 +190,16 @@ In this step, we perform feature engineering to analyze and modify the features 
 The inputs for these modules are pickle files which are taken as dataframes and outputs are paths to the pickle files which are stores the values from the dataframes which are created after each task.
 
 <hr>
+
+# Machine Learning Pipeline
+
+We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
+
+For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
+
+In managing models for Staging, Production, and Archiving, we rely on MLflow.
+
+Read more about how we used MLOps and our machine learning modeling pipelines [here](gcpdeploy/README.md)
 
 # Contributing / Development Guide
 
