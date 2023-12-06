@@ -2,35 +2,38 @@ from google.cloud import storage
 from datetime import datetime
 import pytz
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+# from sklearn.model_selection import train_test_split
+# from sklearn.ensemble import RandomForestRegressor
 from sklearn.cluster import KMeans
 import joblib
 import json
 import gcsfs
 import os
-import pickle
+# import pickle
 from dotenv import load_dotenv
-import plotly.graph_objects as go
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import plotly.graph_objects as go
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
-from tabulate import tabulate
+# from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
+# from tabulate import tabulate
 from collections import Counter
 
 from ClusterBasedRecommender import generate_recommendations
 
 # Load environment variables
-# load_dotenv()
+load_dotenv()
 
 # Initialize variables
-# fs = gcsfs.GCSFileSystem()
-# storage_client = storage.Client()
-# bucket_name = os.getenv("BUCKET_NAME")
-# MODEL_DIR = os.environ['AIP_STORAGE_URI']
+fs = gcsfs.GCSFileSystem()
+storage_client = storage.Client()
+bucket_name = os.getenv("BUCKET_NAME")
+MODEL_DIR = os.environ['AIP_STORAGE_URI']
 
 def kmeans_clustering(df_cleaned, df_pca, number_of_clusters=3):
+    """
+    Clustering our data with kmeans
+    """
 
     kmeans = KMeans(n_clusters=number_of_clusters, init='k-means++', n_init=10, max_iter=100, random_state=0)
     kmeans.fit(df_pca)
@@ -68,6 +71,7 @@ def save_and_upload_model(model, local_model_path, gcs_model_path):
     with fs.open(gcs_model_path, 'wb') as f:
         joblib.dump(model, f)
 
+
 def main():
     """
     Main function to orchestrate the loading of data, training of the model,
@@ -78,31 +82,29 @@ def main():
     # df = load_data(gcs_train_data_path)
     # X_train, X_test, y_train, y_test = data_transform(df)
 
-    data_dir_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "processed")
+    # data_dir_path = os.path.dirname(os.path.abspath(__file__))
+    data_dir_path = "gs://ecommerce_retail_online_mlops/data"
 
     pca_output = pd.read_parquet(data_dir_path + "/pca_output.parquet")
     after_outlier = pd.read_pickle(data_dir_path + "/after_outlier_treatment.pkl")
     outliers_data = pd.read_parquet(data_dir_path + "/df_outlier.parquet")
     df_transactions = pd.read_parquet(data_dir_path + "/transaction_dataframe.parquet")
     
-    # Training
+    # Training the model
     customer_data_cleaned, model, customer_data_pca = kmeans_clustering(after_outlier, pca_output)
-    print(f"clustering ran successfully!")
+    print("clustering ran successfully!")
     recommendations_df = generate_recommendations(df_transactions, outliers_data, customer_data_cleaned)
-    print(f"recommendations_df generated successfully!")
+    print("recommendations_df generated successfully!")
     print(recommendations_df.shape)
 
-    # Train the model
-    # model = train_model(X_train, y_train)
-
     # Save the model locally and upload to GCS
-    # edt = pytz.timezone('US/Eastern')
-    # current_time_edt = datetime.now(edt)
-    # version = current_time_edt.strftime('%Y%m%d_%H%M%S')
-    # local_model_path = "model.pkl"
-    # gcs_model_path = f"{MODEL_DIR}/model_{version}.pkl"
-    # print(gcs_model_path)
-    # save_and_upload_model(model, local_model_path, gcs_model_path)
+    edt = pytz.timezone('US/Eastern')
+    current_time_edt = datetime.now(edt)
+    version = current_time_edt.strftime('%Y%m%d_%H%M%S')
+    local_model_path = "model.pkl"
+    gcs_model_path = f"{MODEL_DIR}/model_{version}.pkl"
+    print(gcs_model_path)
+    save_and_upload_model(model, local_model_path, gcs_model_path)
 
 if __name__ == "__main__":
     main()
