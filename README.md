@@ -108,6 +108,7 @@ docker compose down
 - Google Cloud Platform (GCP)
 - MLflow
 - TensorFlow
+- Flask
 
 ## GitHub Actions
 
