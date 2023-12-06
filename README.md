@@ -131,12 +131,6 @@ Data Versioning Control enables us for versioning of datasets and machine learni
 
 ## MLFlow
 
-MLflow provided us with a consistent and reproducible environment for experimenting with unsupervised learning algorithms to easily track, compare and save different parameters, metrics, experiments, and even ML models as artifacts for reuse. MLflow seamlessly integrated with frameworks like scikit-learn, TensorFlow which allowed us to tune our model through visualizing the best set of parameters to optimize each of our metrics.
-
-We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
-
-![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
-Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
 
 ## Google Cloud Platform (GCP)
 
@@ -206,10 +200,18 @@ We have implemented our machine learning pipeline on Google Cloud Platform (GCP)
 
 ## Experimental tracking pipeline (MLFLOW)
 
-For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
+MLflow provided us with a consistent and reproducible environment for experimenting with unsupervised learning algorithms to easily track, compare and save different parameters, metrics, experiments, and even ML models as artifacts for reuse. MLflow seamlessly integrated with frameworks like scikit-learn, TensorFlow which allowed us to tune our model through visualizing the best set of parameters to optimize each of our metrics.
+
+We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
+
+![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
+Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
 
 ## Staging, Production and Archived models (MLFLOW)
-In managing models for Staging, Production, and Archiving, we rely on MLflow.
+We rely on MLflow for managing models for Archiving, Staging, and Production as it allows us to reuse the models from artifacts regietry and serve it on a predefined port on-the-go. Our 
+
+![MLFlow Dashboard](assets/MLFlow_dashboard.png)
+Pictured: Existing Logs on MLFlow for all the Experimental Models
 
 ## Model Pipeline
    #### Train the model 
@@ -353,6 +355,8 @@ Profile: Recurrent High Spenders with High Cancellations
 
 ![Cluster 0](data/plots/Cluster0.jpeg)
 
+Pictured: Radar Chart for Customer Profile 0
+
 ### Cluster 1
 Profile:  Intermittent Big Spenders with a High Spending Trends
 - The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
@@ -363,6 +367,8 @@ Profile:  Intermittent Big Spenders with a High Spending Trends
 
 ![Cluster 1](data/plots/Cluster1.jpeg)
 
+Pictured: Radar Chart for Customer Profile 1
+
 ### Cluster 2
 Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
 
@@ -372,9 +378,11 @@ Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
 - These customers have a low cancellation frequency and rate, indicating that they have not engaged in numerous cancellations.
 - When they do shop, they typically spend less each transaction, as seen by the lower average transaction value.
 
+![Cluster 2](data/plots/Cluster2.jpeg)
 
-![Cluster 1](data/plots/Cluster2.jpeg)
+Pictured: Radar Chart for Customer Profile 2
 
 ## Customer RFM Trends based on Clusters
 
 ![Customer Trends Histogram](data/plots/histogram_analysis.png)
+Pictured: Comparison of RFM Features for Customer Profiles
