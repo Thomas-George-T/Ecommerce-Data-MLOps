@@ -110,6 +110,17 @@ docker compose down
 - TensorFlow
 - Flask
 
+
+<p align="center">  
+    <br>
+	<a href="#">
+        <img height=100 src="https://cdn.svgporn.com/logos/google-cloud.svg" alt="Google Cloud Platform" title="Google Cloud Platform" hspace=20 /> 
+        <img height=100 src="https://cdn.svgporn.com/logos/flask.svg" alt="Flask" title="Flask" hspace=20 /> 
+        <img height=100 src="https://cdn.svgporn.com/logos/tensorflow.svg" alt="TensorFlow" title="TensorFlow" hspace=20 />
+  </a>	
+</p>
+<br>
+
 ## GitHub Actions
 
 GitHub Actions workflows are set on push and on pull requests for all branches including the feature** and main branches. On pushing a new commit, the workflow triggers a build involving `pytest` and `pylint`. It should generate test reports in XML formats available as artefacts. 
