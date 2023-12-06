@@ -112,7 +112,7 @@ def predict():
 
 project_id, bucket_name = initialize_variables()
 storage_client, bucket = initialize_client_and_bucket(bucket_name)
-stats = load_stats(bucket)
+
 model = load_model(bucket, bucket_name)
 
 
