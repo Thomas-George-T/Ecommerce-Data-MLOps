@@ -8,6 +8,9 @@ import pandas as pd
 
 load_dotenv()
 
+# Global initialization of the storage client
+storage_client = storage.Client()
+
 app = Flask(__name__)
 
 def initialize_variables():
@@ -41,12 +44,20 @@ def load_model(bucket, bucket_name):
   Returns:
       _BaseEstimator: The loaded model.
   """
-  latest_model_blob_name = fetch_latest_model(bucket_name)
-  local_model_file_name = os.path.basename(latest_model_blob_name)
-  model_blob = bucket.blob(latest_model_blob_name)
-  model_blob.download_to_filename(local_model_file_name)
-  model = joblib.load(local_model_file_name)
-  return model
+  try:
+    latest_model_blob_name = fetch_latest_model(bucket_name)
+    local_model_file_name = os.path.basename(latest_model_blob_name)
+    model_blob = bucket.blob(latest_model_blob_name)
+
+    # Download the model file
+    model_blob.download_to_filename(local_model_file_name)
+
+    # Load the model
+    model = joblib.load(local_model_file_name)
+    return model
+  except Exception as e:
+    print(f"Error occurred while loading the model: {e}")
+
 
 def fetch_latest_model(bucket_name, prefix="model/model_"):
   """Fetches the latest model file from the specified GCS bucket.
