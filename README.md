@@ -199,6 +199,17 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
 
+## Machine Learning Pipeline Components
+	1. trainer
+ 	We have a docker file and a python file called train.py that creates the model and stores it into Google Cloud Storage (GCS).
+  	`ClusterBasedRecommender.py` : It contains K-Means_Clustering algorithm, removing_outliers and hyper parameter tuning.
+   	`train.py`: Creates the model and saves it on Google Cloud after using the train data from Google Cloud.
+    	`Dockerfile` : Used to host the training job.
+     	2. serve
+      	It is to serve the K_Means_Clustering on Vertex AI after training.
+       `predict.py`: The flask app to predict clusters based on input json data.
+       `Dockerfile` : Used to host the serving module.
+
 ## Experimental tracking pipeline (MLFLOW)
 
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
