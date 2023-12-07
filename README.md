@@ -133,11 +133,6 @@ Data Versioning Control enables us for versioning of datasets and machine learni
 
 MLflow provided us with a consistent and reproducible environment for experimenting with unsupervised learning algorithms to easily track, compare and save different parameters, metrics, experiments, and even ML models as artifacts for reuse. MLflow seamlessly integrated with frameworks like scikit-learn, TensorFlow which allowed us to tune our model through visualizing the best set of parameters to optimize each of our metrics.
 
-We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
-
-![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
-Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
-
 ## Google Cloud Platform (GCP)
 
 Our data version control is tracked and hosted on Google Cloud Platform. Google Cloud seamlessly hosts large dataset and its versioning for developing robust ETL pipelines. Multiple Users can access and update the data at once, while inherent support for versioning helps retrieve older versions effortlessly.
@@ -207,6 +202,11 @@ We have implemented our machine learning pipeline on Google Cloud Platform (GCP)
 ## Experimental tracking pipeline (MLFLOW)
 
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
+
+We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
+
+![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
+Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
 
 ## Staging, Production and Archived models (MLFLOW)
 In managing models for Staging, Production, and Archiving, we rely on MLflow.
