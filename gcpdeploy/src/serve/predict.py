@@ -97,18 +97,13 @@ def predict():
   """
   request_json = request.get_json()
 
-  # Validate the input data
-  if 'data' not in request_json or len(request_json['data']) != 6:
-      return jsonify({'error': 'Please provide exactly 6 PCA values'}), 400
+  request_instances = request_json['instances']
 
-  # Convert the input data to a DataFrame
-  data = request_json['data']
-  column_names = ['PCA1', 'PCA2', 'PCA3', 'PCA4', 'PCA5', 'PCA6']
-  input_df = pd.DataFrame([data], columns=column_names)
+  prediction = model.predict(pd.DataFrame(list(request_instances)))
+  prediction = prediction.tolist()
+  output = {'predictions': [{'cluster': pred} for pred in prediction]}
+  return jsonify(output)
 
-  # Make predictions with the model
-  prediction = model.predict(input_df)
-  return jsonify({'prediction': int(prediction[0])})
 
 project_id, bucket_name = initialize_variables()
 storage_client, bucket = initialize_client_and_bucket(bucket_name)

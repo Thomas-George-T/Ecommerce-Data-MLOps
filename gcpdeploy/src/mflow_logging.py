@@ -24,7 +24,7 @@ INIT_SEEDS=[1,2,5,10,20,50]
 INIT_TYPE=['k-means++','random']
 ITERS=[100,250,500,1000]
 
-#Loggong Declarations
+#Logging Declarations
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 warnings.filterwarnings("ignore")
