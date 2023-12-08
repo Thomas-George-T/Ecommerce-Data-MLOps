@@ -49,6 +49,8 @@ def load_model(bucket, bucket_name):
     local_model_file_name = os.path.basename(latest_model_blob_name)
     model_blob = bucket.blob(latest_model_blob_name)
 
+    print("latest_model_blob_name",latest_model_blob_name)
+
     # Download the model file
     model_blob.download_to_filename(local_model_file_name)
 
@@ -75,7 +77,7 @@ def fetch_latest_model(bucket_name, prefix="model/model_"):
   if not blob_names:
       raise ValueError("No model files found in the GCS bucket.")
 
-  latest_blob_name = sorted(blob_names, key=lambda x: x.split('_')[-1], reverse=True)[0]
+  latest_blob_name = sorted(blob_names, key=lambda x: x.split('_')[-1], reverse=True)[1]
 
   return latest_blob_name
   
@@ -87,7 +89,7 @@ def health_check():
   """
   return {"status": "healthy"}
   
-@app.route('/predict', methods=['POST'])
+@app.route(os.environ['AIP_PREDICT_ROUTE'], methods=['POST'])
 def predict():
   """
   Endpoint for making predictions with the KMeans model.
