@@ -1,6 +1,6 @@
 [![Pytest](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml)
 # Ecommerce Customer Segmentation & MLOps
-Authors: [Ashkan Ghanavati ](https://github.com/AshyScripts)
+[Ashkan Ghanavati](https://github.com/AshyScripts)
 [Bardia Mouhebat](https://github.com/baridamm)
 [Komal Pardeshi](https://github.com/kokomocha)
 [Moheth Muralidharan](https://github.com/Moheth2000)
@@ -266,17 +266,24 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
 
 # Cost Analysis
 
+Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform hosting on US East1
+
 ## Initial Cost Analysis
 
 Model Training using Vertex AI: $3.58
+
 Deploying Model: $1.75
+
 Total Training and Deployment Cost: $5.33
 
 ## Serving Analysis
 
 Daily Online Prediction for Model Serving: $6.63
+
 Weekly serving cost: $46.41
+
 Monthly serving cost: $185.64
+
 Yearly serving cost: $2,423.72
 
 <hr>
