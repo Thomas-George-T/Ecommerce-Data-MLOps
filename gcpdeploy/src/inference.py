@@ -48,11 +48,10 @@ def predict_custom_trained_model(
 
 predict_custom_trained_model(
     project="1002663879452",
-    endpoint_id="363199476979990528",
+    endpoint_id="2090611409053286400",
     location="us-east1",
     instances= {
-  "instances": [
-    {
+
       "PC1": 1000.595596,
       "PC2": -0.944713,
       "PC3": 0.340492,
@@ -60,6 +59,4 @@ predict_custom_trained_model(
       "PC5": 0.135310,
       "PC6": 0.506377
     }
-  ]
-}
 )
