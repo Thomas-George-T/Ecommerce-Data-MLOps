@@ -199,6 +199,8 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
 
+![ML_Pipeline_Graph_Image](assets/Model_Pipeline.png)
+
 ## Machine Learning Pipeline Components
 ### 1. Trainer
 We have a docker file and a python file called train.py that creates the model and stores it into Google Cloud Storage (GCS).
