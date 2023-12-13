@@ -129,6 +129,10 @@ Data Versioning Control enables us for versioning of datasets and machine learni
 
 ![How DVC works](assets/dvc-working.png)
 
+## MLFlow
+
+MLflow provided us with a consistent and reproducible environment for experimenting with unsupervised learning algorithms to easily track, compare and save different parameters, metrics, experiments, and even ML models as artifacts for reuse. MLflow seamlessly integrated with frameworks like scikit-learn, TensorFlow which allowed us to tune our model through visualizing the best set of parameters to optimize each of our metrics.
+
 ## Google Cloud Platform (GCP)
 
 Our data version control is tracked and hosted on Google Cloud Platform. Google Cloud seamlessly hosts large dataset and its versioning for developing robust ETL pipelines. Multiple Users can access and update the data at once, while inherent support for versioning helps retrieve older versions effortlessly.
@@ -156,7 +160,7 @@ Pictured: Our Airflow DAG
 
 The following is the explanation of our Data pipeline DAG
 
-# Project Components
+## Data Pipeline Components
 
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
@@ -191,15 +195,69 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 
 <hr>
 
-# Machine Learning Pipeline
+# Machine Learning Modeling Pipeline
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
 
+## Machine Learning Pipeline Components
+### 1. Trainer
+We have a docker file and a python file called train.py that creates the model and stores it into Google Cloud Storage (GCS).
+- `ClusterBasedRecommender.py` : It contains K-Means_Clustering algorithm, removing_outliers and hyper parameter tuning.
+- `train.py`: Creates the model and saves it on Google Cloud after using the train data from Google Cloud.
+- `Dockerfile` : Used to host the training job.
+### 2. Serve
+It is to serve the K_Means_Clustering on Vertex AI after training.
+- `predict.py`: The flask app to predict clusters based on input json data.
+- `Dockerfile` : Used to host the serving module.
+
+### 3. Model Pipeline
+- `build.py` : Will create a training job using the images from the above trainer and serve in Vertex AI. At the end of the job it wil deploy to the endpoint where it will serve the model.
+
+### 4. Inference
+- `inference.py : It will send a json input to the model to predict the results.
+
+
+
+## Experimental tracking pipeline (MLFLOW)
+
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
 
+We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
+
+![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
+Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
+
+## Staging, Production and Archived models (MLFLOW)
 In managing models for Staging, Production, and Archiving, we rely on MLflow.
 
-Read more about how we used MLOps and our machine learning modeling pipelines [here](gcpdeploy/README.md)
+## Model Pipeline
+   #### Train the model 
+   The model is trained using K-Means_Clustering function. It takes 3 inputs and gives 2 outputs. The three inputs are PCA dataframe, transaction dataframe and number of clusters. The outputs are PCA dataframe and transaction dataframe with 'cluster' columns.
+   #### Save the model 
+   The model is saved locally using save_and_upload_model function and uploaded to GCS.
+   #### Hyper Parameter Tuning
+   The model has four hyper-parameters namely init, n_init, number of iterations and number of clusters in model_analysis(). Also, we used MLFLOW for checking models with multiple parameters by changing cluster numbers in centroid seeds.
+  #### Model Analysis 
+  The model is analysed by the Silhouette_Analysis function.
+
+
+   ![Silhouette_Analysis](assets/Silhouette_analysis.png)
+
+<p align="center">The plot above shows the silhouette score plots for different number of clusters. The closer it is to +1, the better it is</p>
+  
+  #### Model Efficacy Report and Visuals  
+  The model has the following metrics: Silhouette Score, Calinski Harabasz score and Davies Bouldin score. Below are the visuals of clusters formed after PCA and the distribution of customers into clusters.
+  
+   ![3D_Visualization_of_clusters](assets/3D_Visualization_of_clusters.png)
+
+   <p align="center">The plot above visualises the clusters of customers.</p>
+   
+   ![Distribution_of_clusters](assets/Distribtion_customers.png)
+
+   <p align="center">The plot above visualises the distribution of customers into clusters.</p>
+ 
+
+<hr>
 
 # Contributing / Development Guide
 
@@ -276,4 +334,66 @@ Steps to initialize and track files using DVC
     ```python
     dvc remote modify --lab2 credentialpath <YOUR JSON TOKEN>```
 
+## MLFlow
+
+Most important declarations in the code:
+1. Set your tracking uri for MLFlow.
+    ```python
+    mlflow.set_tracking_uri("http://127.0.0.1:5001")
+    ```
+2. Setting the base level for logging; only warnings and above (error,critical) shall be logged.
+    ```python
+    logging.basicConfig(level=logging.WARN)
+    ```
+
+3. Set up the logger.
+    ```python
+    logger = logging.getLogger(__name__)
+    ```
+
+4. Additionally, you may or may not choose to ignore warnings.
+    ```python
+    warnings.filterwarnings("ignore")
+    ```
 <hr>
+
+# Model Insights
+
+## Segmentation Clusters
+
+### Cluster 0
+Profile: Recurrent High Spenders with High Cancellations
+
+- Consumers in this cluster buy a wide range of unusual goods and have very high overall spending power.
+- They do a lot of transactions, but they also cancel a lot and with high frequency.
+- These clients typically shop early in the day and have very short average time intervals between transactions (low Hour value).
+- Their high level of monthly variability suggests that, in comparison to other clusters, their spending patterns may be less predictable.
+- They exhibit a low spending tendency in spite of their high expenditure, which raises the possibility that their high spending levels will eventually decline.
+
+![Cluster 0](data/plots/Cluster0.jpeg)
+
+### Cluster 1
+Profile:  Intermittent Big Spenders with a High Spending Trends
+- The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
+- Their expenditure trend is really high, suggesting that they have been spending more money over time.
+- These clients, who are primarily from the UK, prefer to purchase late in the day, as seen by the high Hour value.
+- They typically cancel a modest amount of transactions, with a moderate frequency and rate of cancellations.
+- Their comparatively high average transaction value indicates that people typically make large purchases when they go shopping.
+
+![Cluster 1](data/plots/Cluster1.jpeg)
+
+### Cluster 2
+Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
+
+- Consumers in this cluster typically make fewer purchases and spend less money overall.
+- The very high Day_of_Week number suggests that they have a slight inclination to shop on the weekends.
+- Their monthly spending variation is low (low Monthly_Spending_Std), and their spending trend is generally constant but on the lower side.
+- These customers have a low cancellation frequency and rate, indicating that they have not engaged in numerous cancellations.
+- When they do shop, they typically spend less each transaction, as seen by the lower average transaction value.
+
+
+![Cluster 1](data/plots/Cluster2.jpeg)
+
+## Customer RFM Trends based on Clusters
+
+![Customer Trends Histogram](data/plots/histogram_analysis.png)

@@ -8,7 +8,6 @@ Outputs: {
 Returns: None
 """
 import os
-import json
 from prompt_toolkit.shortcuts import yes_no_dialog
 import pandas as pd
 import seaborn as sns
@@ -20,20 +19,18 @@ from matplotlib.colors import LinearSegmentedColormap
 sns.set_style('whitegrid')
 
 #Loading Config File
-PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-config_path = os.path.join(PAR_DIRECTORY,"config","feature_processing.json")
-with open(config_path, "rb") as f:
-    config = json.load(f).get("correlation")
+PAR_DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #Global variables
-__INGESTPATH__ = os.path.join(PAR_DIRECTORY,config.get("ingest_path")) #default path in config
-__IMGPATH__ = os.path.join(PAR_DIRECTORY,config.get("image_path")) #default path in config
-__PARQUETPATH__ = os.path.join(PAR_DIRECTORY,config.get("correlation_matrix_path")) #default path
-corr_thresh = config.get("correlation_threshold") # in config
+__INGESTPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed','scaler_output.parquet')
+__IMGPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed',"images",\
+    "correlation_heatmap.png")
+__PARQUETPATH__ = os.path.join(PAR_DIRECTORY,'data', 'processed', "correlation_matrix.parquet")
+CORR_THRESH = 0.5
 __OUTPUTPATH__=(__IMGPATH__,__PARQUETPATH__)
 
 def correlation_check(in_path=__INGESTPATH__,out_path=__OUTPUTPATH__,\
-    correlation_threshold=corr_thresh):
+    correlation_threshold=CORR_THRESH):
     """
     Global variables(can only be changed through Config file)
     Args:
