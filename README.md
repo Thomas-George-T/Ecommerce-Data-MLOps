@@ -264,12 +264,13 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
    ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
-   
+
 # Model Insights
 
 ## Segmentation Clusters
 
 ### Cluster 0
+
 Profile: Recurrent High Spenders with High Cancellations
 
 - Consumers in this cluster buy a wide range of unusual goods and have very high overall spending power.
@@ -281,6 +282,7 @@ Profile: Recurrent High Spenders with High Cancellations
 ![Cluster 0](data/plots/Cluster0.jpeg)
 
 ### Cluster 1
+
 Profile:  Intermittent Big Spenders with a High Spending Trends
 - The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
 - Their expenditure trend is really high, suggesting that they have been spending more money over time.
@@ -291,6 +293,7 @@ Profile:  Intermittent Big Spenders with a High Spending Trends
 ![Cluster 1](data/plots/Cluster1.jpeg)
 
 ### Cluster 2
+
 Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
 
 - Consumers in this cluster typically make fewer purchases and spend less money overall.
