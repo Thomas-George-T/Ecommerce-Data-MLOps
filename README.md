@@ -148,7 +148,12 @@ Pictured: Our data files tracked by DVC in GCP
 
 <hr>
 
-# Data Pipeline
+# Overall ML Project PipeLine
+
+![ML Project Pipeline](assets/Ecommerce-Overall-Pipeline.jpeg)
+
+
+## Data Pipeline
 
 Our data pipeline is modularized right from data ingestion to preprocessing to make our data ready for modeling. It is made sure that every module functions as expected by following Test Driven Development (TDD). This is achieved through enforcing tests for every module. 
 
@@ -238,7 +243,86 @@ Pictured: Existing Logs on MLFlow for all the Experimental Models
    ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
- 
+
+## Deployment Pipeline
+
+We have deployed the K-Means Model on a Vertex-AI Endpoint, which uses Flask API to receive requests. We have implemented Model and Traffic Monitoring using Big Query, and integrated this with the Looker Dashboard that helps evaluate the latency for server load. We also use Big Query to check the features' min-max values for determining any data drifts.
+
+![Deployment Pipeline](assets/Deployment-Pipeline.jpeg)
+
+<hr>
+
+
+# Model Insights
+
+## Segmentation Clusters
+
+### Cluster 0
+
+Profile: Recurrent High Spenders with High Cancellations
+
+- Consumers in this cluster buy a wide range of unusual goods and have very high overall spending power.
+- They do a lot of transactions, but they also cancel a lot and with high frequency.
+- These clients typically shop early in the day and have very short average time intervals between transactions (low Hour value).
+- Their high level of monthly variability suggests that, in comparison to other clusters, their spending patterns may be less predictable.
+- They exhibit a low spending tendency in spite of their high expenditure, which raises the possibility that their high spending levels will eventually decline.
+
+![Cluster 0](data/plots/Cluster0.jpeg)
+
+### Cluster 1
+
+Profile:  Intermittent Big Spenders with a High Spending Trends
+- The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
+- Their expenditure trend is really high, suggesting that they have been spending more money over time.
+- These clients, who are primarily from the UK, prefer to purchase late in the day, as seen by the high Hour value.
+- They typically cancel a modest amount of transactions, with a moderate frequency and rate of cancellations.
+- Their comparatively high average transaction value indicates that people typically make large purchases when they go shopping.
+
+![Cluster 1](data/plots/Cluster1.jpeg)
+
+### Cluster 2
+
+Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
+
+- Consumers in this cluster typically make fewer purchases and spend less money overall.
+- The very high Day_of_Week number suggests that they have a slight inclination to shop on the weekends.
+- Their monthly spending variation is low (low Monthly_Spending_Std), and their spending trend is generally constant but on the lower side.
+- These customers have a low cancellation frequency and rate, indicating that they have not engaged in numerous cancellations.
+- When they do shop, they typically spend less each transaction, as seen by the lower average transaction value.
+
+
+![Cluster 1](data/plots/Cluster2.jpeg)
+Pictured: Radar Charts for Customer Profiles
+
+## Customer RFM Trends based on Clusters
+
+![Customer Trends Histogram](data/plots/histogram_analysis.png)
+Pictured: Feature-wise Distributions for Customer Profile Clusters
+
+
+<hr> 
+
+# Cost Analysis
+
+Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform (GCP) hosted on US East1 Region.
+
+## Initial Cost Analysis
+
+Model Training using Vertex AI: $3.58
+
+Deploying Model: $1.75
+
+Total Training and Deployment Cost: $5.33
+
+## Serving Analysis
+
+Daily Online Prediction for Model Serving: $6.63
+
+Weekly serving cost: $46.41
+
+Monthly serving cost: $185.64
+
+Yearly serving cost: $2,423.72
 
 <hr>
 
