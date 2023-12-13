@@ -1,10 +1,19 @@
 from flask import Flask, jsonify, request
-from google.cloud import storage
+# from google.cloud import storage
 import joblib
 import os
 import json
 from dotenv import load_dotenv
 import pandas as pd
+# Experimental Start
+import time
+from datetime import datetime
+from google.cloud import storage, logging, bigquery
+from google.cloud.bigquery import SchemaField
+from google.api_core.exceptions import NotFound
+from google.oauth2 import service_account
+from google.logging.type import log_severity_pb2 as severity
+# Experimental End
 
 load_dotenv()
 
@@ -12,6 +21,57 @@ load_dotenv()
 storage_client = storage.Client()
 
 app = Flask(__name__)
+
+## Experimental start
+# Set up Google Cloud logging
+service_account_file = 'ecommerce-mlops-406821-40598235283c.json'
+credentials = service_account.Credentials.from_service_account_file(service_account_file)
+client = logging.Client(credentials=credentials)
+logger = client.logger('training_pipeline')
+# Initialize BigQuery client
+bq_client = bigquery.Client(credentials=credentials)
+table_id = os.environ['BIGQUERY_TABLE_ID']
+
+
+def get_table_schema():
+    """Build the table schema for the output table
+    
+    Returns:
+        List: List of `SchemaField` objects"""
+    return [
+
+        SchemaField("PC1", "FLOAT", mode="NULLABLE"),
+        SchemaField("PC2", "FLOAT", mode="NULLABLE"),
+        SchemaField("PC3", "FLOAT", mode="NULLABLE"),
+        SchemaField("PC4", "FLOAT", mode="NULLABLE"),
+        SchemaField("PC5", "FLOAT", mode="NULLABLE"),
+        SchemaField("PC6", "FLOAT", mode="NULLABLE"),
+        SchemaField("prediction", "FLOAT", mode="NULLABLE"),
+        SchemaField("timestamp", "TIMESTAMP", mode="NULLABLE"),
+        SchemaField("latency", "FLOAT", mode="NULLABLE"),
+    ]
+
+
+def create_table_if_not_exists(client, table_id, schema):
+    """Create a BigQuery table if it doesn't exist
+    
+    Args:
+        client (bigquery.client.Client): A BigQuery Client
+        table_id (str): The ID of the table to create
+        schema (List): List of `SchemaField` objects
+        
+    Returns:
+        None"""
+    try:
+        client.get_table(table_id)  # Make an API request.
+        print("Table {} already exists.".format(table_id))
+    except NotFound:
+        print("Table {} is not found. Creating table...".format(table_id))
+        table = bigquery.Table(table_id, schema=schema)
+        client.create_table(table)  # Make an API request.
+        print("Created table {}.{}.{}".format(table.project, table.dataset_id, table.table_id))
+
+## Experimental End
 
 def initialize_variables():
   """
@@ -49,6 +109,8 @@ def load_model(bucket, bucket_name):
     local_model_file_name = os.path.basename(latest_model_blob_name)
     model_blob = bucket.blob(latest_model_blob_name)
 
+    print("latest_model_blob_name",latest_model_blob_name)
+
     # Download the model file
     model_blob.download_to_filename(local_model_file_name)
 
@@ -75,7 +137,7 @@ def fetch_latest_model(bucket_name, prefix="model/model_"):
   if not blob_names:
       raise ValueError("No model files found in the GCS bucket.")
 
-  latest_blob_name = sorted(blob_names, key=lambda x: x.split('_')[-1], reverse=True)[0]
+  latest_blob_name = sorted(blob_names, key=lambda x: x.split('_')[-1], reverse=True)[1]
 
   return latest_blob_name
   
@@ -87,7 +149,7 @@ def health_check():
   """
   return {"status": "healthy"}
   
-@app.route('/predict', methods=['POST'])
+@app.route(os.environ['AIP_PREDICT_ROUTE'], methods=['POST'])
 def predict():
   """
   Endpoint for making predictions with the KMeans model.
@@ -97,23 +159,65 @@ def predict():
   """
   request_json = request.get_json()
 
-  # Validate the input data
-  if 'data' not in request_json or len(request_json['data']) != 6:
-      return jsonify({'error': 'Please provide exactly 6 PCA values'}), 400
+  request_instances = request_json['instances']
 
-  # Convert the input data to a DataFrame
-  data = request_json['data']
-  column_names = ['PCA1', 'PCA2', 'PCA3', 'PCA4', 'PCA5', 'PCA6']
-  input_df = pd.DataFrame([data], columns=column_names)
+  ## Experimental start
+  logger.log_text("Received prediction request.", severity='INFO')
 
-  # Make predictions with the model
-  prediction = model.predict(input_df)
-  return jsonify({'prediction': int(prediction[0])})
+  prediction_start_time = time.time()
+  current_timestamp = datetime.now().isoformat()
+  ## Experimental end
+
+  prediction = model.predict(pd.DataFrame(list(request_instances)))
+  
+  ## Experimental start
+  prediction_end_time = time.time()
+  prediction_latency = prediction_end_time - prediction_start_time
+  ## Experimental end
+
+  prediction = prediction.tolist()
+
+  ## Experimental start
+  
+  logger.log_text(f"Prediction results: {prediction}", severity='INFO')
+
+  rows_to_insert = [
+      {   
+          "PC1": instance['PC1'],
+          "PC2": instance['PC2'],
+          "PC3": instance['PC3'],
+          "PC4": instance['PC4'],
+          "PC5": instance['PC5'],
+          "PC6": instance['PC6'],
+          "prediction": pred,
+          "timestamp": current_timestamp,
+          "latency": prediction_latency
+      }
+      for instance, pred in zip(request_instances, prediction)
+  ]
+
+  errors = bq_client.insert_rows_json(table_id, rows_to_insert)
+  if errors == []:
+      logger.log_text("New predictions inserted into BigQuery.", severity='INFO')
+  else:
+      logger.log_text(f"Encountered errors inserting predictions into BigQuery: {errors}", severity='ERROR')
+
+
+## Experiment end
+  # print("prediction",prediction)
+  output = {'predictions': [{'cluster': pred} for pred in prediction]}
+  return jsonify(output)
+
 
 project_id, bucket_name = initialize_variables()
 storage_client, bucket = initialize_client_and_bucket(bucket_name)
 
 model = load_model(bucket, bucket_name)
+
+## Experiment start
+schema = get_table_schema()
+create_table_if_not_exists(bq_client, table_id, schema)
+## Experiment end
 
 
 if __name__ == '__main__':
