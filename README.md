@@ -167,6 +167,8 @@ The following is the explanation of our Data pipeline DAG
 
 ## Data Pipeline Components
 
+![Model Pipeline](assets/Data_Pipeline.png "Model Pipeline")
+
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
 ### 1. Downloading Data:
@@ -203,6 +205,8 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 # Machine Learning Modeling Pipeline
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
+
+![ML_Pipeline_Graph_Image](assets/Model_Pipeline.png)
 
 ## Machine Learning Pipeline Components
 ### 1. Trainer
