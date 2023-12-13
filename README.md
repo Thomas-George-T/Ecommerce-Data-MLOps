@@ -162,6 +162,8 @@ The following is the explanation of our Data pipeline DAG
 
 ## Data Pipeline Components
 
+![Model Pipeline](assets/Data_Pipeline.png "Model Pipeline")
+
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
 ### 1. Downloading Data:
