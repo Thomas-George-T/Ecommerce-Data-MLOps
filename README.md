@@ -236,7 +236,7 @@ It is to serve the K_Means_Clustering on Vertex AI after training.
 
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
 
-We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
+We chose the three metrics Davies-Bouldin Index(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
 
 ![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
 Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
@@ -272,6 +272,16 @@ Pictured: Existing Logs on MLFlow for all the Experimental Models
    ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
+
+<hr>
+
+# Deployment Pipeline
+
+We have deployed the K-Means Model on a Vertex-AI Endpoint, which uses Flask API to receive requests. We have implemented Model and Traffic Monitoring using Big Query, and integrated this with the Looker Dashboard that helps evaluate the latency for server load. We also use Big Query to check the features' min-max values for determining any data drifts.
+
+![Deployment Pipeline](assets/Deployment-Pipeline.jpeg)
+
+<hr> 
 
 # Model Insights
 
