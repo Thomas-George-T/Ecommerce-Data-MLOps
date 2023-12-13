@@ -43,3 +43,6 @@ gcsfs
 python-dotenv
 kaleido==0.2.1
 grpcio==1.51.3
+google-cloud-logging
+google-cloud-bigquery
+google-auth

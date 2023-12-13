@@ -1,5 +1,10 @@
 [![Pytest](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml)
 # Ecommerce Customer Segmentation & MLOps
+[Ashkan Ghanavati](https://github.com/AshyScripts)
+[Bardia Mouhebat](https://github.com/baridamm)
+[Komal Pardeshi](https://github.com/kokomocha)
+[Moheth Muralidharan](https://github.com/Moheth2000)
+[Thomas George Thomas](https://github.com/Thomas-George-T)
 
 <p align="center">  
     <br>
@@ -162,6 +167,8 @@ The following is the explanation of our Data pipeline DAG
 
 ## Data Pipeline Components
 
+![Model Pipeline](assets/Data_Pipeline.png "Model Pipeline")
+
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
 ### 1. Downloading Data:
@@ -198,6 +205,8 @@ The inputs for these modules are pickle files which are taken as dataframes and 
 # Machine Learning Modeling Pipeline
 
 We have implemented our machine learning pipeline on Google Cloud Platform (GCP). We added our codebase, and we built images using Docker. Subsequently, we pushed the Docker images to the Artifact Registry. We then trained and served our model using Vertex AI.
+
+![ML_Pipeline_Graph_Image](assets/Model_Pipeline.png)
 
 ## Machine Learning Pipeline Components
 ### 1. Trainer
@@ -256,6 +265,30 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
  
+
+<hr> 
+
+# Cost Analysis
+
+Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform (GCP) hosted on US East1 Region.
+
+## Initial Cost Analysis
+
+Model Training using Vertex AI: $3.58
+
+Deploying Model: $1.75
+
+Total Training and Deployment Cost: $5.33
+
+## Serving Analysis
+
+Daily Online Prediction for Model Serving: $6.63
+
+Weekly serving cost: $46.41
+
+Monthly serving cost: $185.64
+
+Yearly serving cost: $2,423.72
 
 <hr>
 
