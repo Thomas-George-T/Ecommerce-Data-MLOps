@@ -154,7 +154,12 @@ Pictured: Our data files tracked by DVC in GCP
 
 <hr>
 
-# Data Pipeline
+# Overall ML Project PipeLine
+
+![ML Project Pipeline](assets/Ecommerce-Overall-Pipeline.jpeg)
+
+
+## Data Pipeline
 
 Our data pipeline is modularized right from data ingestion to preprocessing to make our data ready for modeling. It is made sure that every module functions as expected by following Test Driven Development (TDD). This is achieved through enforcing tests for every module. 
 
@@ -231,13 +236,16 @@ It is to serve the K_Means_Clustering on Vertex AI after training.
 
 For tracking our experimental machine learning pipeline, we use MLflow, Docker, and Python.
 
-We chose the three metrics Davies-Bouldin Inedx(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
+We chose the three metrics Davies-Bouldin Index(lower the better), Calinski-Harabasz Index(higher the better) and primarily Silhouette score(higher the better) to choose our final model parameters from the plot below.
 
 ![MLFlow Parallel Plot Image](assets/KMeans_Parallelplot.png)
 Pictured: Parallel Plot for visualizing the parameter-metrics combinations for our model
 
 ## Staging, Production and Archived models (MLFLOW)
-In managing models for Staging, Production, and Archiving, we rely on MLflow.
+We rely on MLflow for managing models for Archiving, Staging, and Production as it allows us to reuse the models from artifacts regietry and serve it on a predefined port on-the-go. Our 
+
+![MLFlow Dashboard](assets/MLFlow_dashboard.png)
+Pictured: Existing Logs on MLFlow for all the Experimental Models
 
 ## Model Pipeline
    #### Train the model 
@@ -264,6 +272,16 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
    ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
+
+<hr>
+
+# Deployment Pipeline
+
+We have deployed the K-Means Model on a Vertex-AI Endpoint, which uses Flask API to receive requests. We have implemented Model and Traffic Monitoring using Big Query, and integrated this with the Looker Dashboard that helps evaluate the latency for server load. We also use Big Query to check the features' min-max values for determining any data drifts.
+
+![Deployment Pipeline](assets/Deployment-Pipeline.jpeg)
+
+<hr> 
 
 # Model Insights
 
@@ -309,6 +327,15 @@ Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
 
 ![Customer Trends Histogram](data/plots/histogram_analysis.png)
 
+<hr>
+
+# Monitoring
+
+![Monitoring Dashboard](assets/Model_Monitoring_Graph.png)
+
+We create a Monitoring Dashboard to monitor the extend of data or concept drift (if any). We use BigQuery to capture input values of features, the predicted cluster and timstamp. We also calculate and store important metrics like Latency between prediction. 
+
+View the multipage dashbord on [Looker](https://lookerstudio.google.com/s/tsXALSpVJ3w)
 
 <hr> 
 
