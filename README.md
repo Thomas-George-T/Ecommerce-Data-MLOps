@@ -1,5 +1,10 @@
 [![Pytest](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml/badge.svg)](https://github.com/Thomas-George-T/Ecommerce-Data-MLOps/actions/workflows/pytest.yml)
 # Ecommerce Customer Segmentation & MLOps
+[Ashkan Ghanavati](https://github.com/AshyScripts)
+[Bardia Mouhebat](https://github.com/baridamm)
+[Komal Pardeshi](https://github.com/kokomocha)
+[Moheth Muralidharan](https://github.com/Moheth2000)
+[Thomas George Thomas](https://github.com/Thomas-George-T)
 
 <p align="center">  
     <br>
@@ -162,6 +167,8 @@ The following is the explanation of our Data pipeline DAG
 
 ## Data Pipeline Components
 
+![Model Pipeline](assets/Data_Pipeline.png "Model Pipeline")
+
 The data pipeline in this project consists of several interconnected modules, each performing specific tasks to process the data. We utilize Airflow and Docker to orchestrate and containerize these modules, with each module functioning as a task in the main data pipeline DAG (`datapipeline`).
 
 ### 1. Downloading Data:
@@ -257,7 +264,75 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
    ![Distribution_of_clusters](assets/Distribtion_customers.png)
 
    <p align="center">The plot above visualises the distribution of customers into clusters.</p>
- 
+
+# Model Insights
+
+## Segmentation Clusters
+
+### Cluster 0
+
+Profile: Recurrent High Spenders with High Cancellations
+
+- Consumers in this cluster buy a wide range of unusual goods and have very high overall spending power.
+- They do a lot of transactions, but they also cancel a lot and with high frequency.
+- These clients typically shop early in the day and have very short average time intervals between transactions (low Hour value).
+- Their high level of monthly variability suggests that, in comparison to other clusters, their spending patterns may be less predictable.
+- They exhibit a low spending tendency in spite of their high expenditure, which raises the possibility that their high spending levels will eventually decline.
+
+![Cluster 0](data/plots/Cluster0.jpeg)
+
+### Cluster 1
+
+Profile:  Intermittent Big Spenders with a High Spending Trends
+- The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
+- Their expenditure trend is really high, suggesting that they have been spending more money over time.
+- These clients, who are primarily from the UK, prefer to purchase late in the day, as seen by the high Hour value.
+- They typically cancel a modest amount of transactions, with a moderate frequency and rate of cancellations.
+- Their comparatively high average transaction value indicates that people typically make large purchases when they go shopping.
+
+![Cluster 1](data/plots/Cluster1.jpeg)
+
+### Cluster 2
+
+Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
+
+- Consumers in this cluster typically make fewer purchases and spend less money overall.
+- The very high Day_of_Week number suggests that they have a slight inclination to shop on the weekends.
+- Their monthly spending variation is low (low Monthly_Spending_Std), and their spending trend is generally constant but on the lower side.
+- These customers have a low cancellation frequency and rate, indicating that they have not engaged in numerous cancellations.
+- When they do shop, they typically spend less each transaction, as seen by the lower average transaction value.
+
+
+![Cluster 1](data/plots/Cluster2.jpeg)
+
+## Customer RFM Trends based on Clusters
+
+![Customer Trends Histogram](data/plots/histogram_analysis.png)
+
+
+<hr> 
+
+# Cost Analysis
+
+Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform (GCP) hosted on US East1 Region.
+
+## Initial Cost Analysis
+
+Model Training using Vertex AI: $3.58
+
+Deploying Model: $1.75
+
+Total Training and Deployment Cost: $5.33
+
+## Serving Analysis
+
+Daily Online Prediction for Model Serving: $6.63
+
+Weekly serving cost: $46.41
+
+Monthly serving cost: $185.64
+
+Yearly serving cost: $2,423.72
 
 <hr>
 
@@ -359,43 +434,3 @@ Most important declarations in the code:
     ```
 <hr>
 
-# Model Insights
-
-## Segmentation Clusters
-
-### Cluster 0
-Profile: Recurrent High Spenders with High Cancellations
-
-- Consumers in this cluster buy a wide range of unusual goods and have very high overall spending power.
-- They do a lot of transactions, but they also cancel a lot and with high frequency.
-- These clients typically shop early in the day and have very short average time intervals between transactions (low Hour value).
-- Their high level of monthly variability suggests that, in comparison to other clusters, their spending patterns may be less predictable.
-- They exhibit a low spending tendency in spite of their high expenditure, which raises the possibility that their high spending levels will eventually decline.
-
-![Cluster 0](data/plots/Cluster0.jpeg)
-
-### Cluster 1
-Profile:  Intermittent Big Spenders with a High Spending Trends
-- The moderate spending levels of the customers in this cluster are accompanied by infrequent transactions, as seen by the high Days_Since_Last_Purchase and Average_Days_Between_Purchases values.
-- Their expenditure trend is really high, suggesting that they have been spending more money over time.
-- These clients, who are primarily from the UK, prefer to purchase late in the day, as seen by the high Hour value.
-- They typically cancel a modest amount of transactions, with a moderate frequency and rate of cancellations.
-- Their comparatively high average transaction value indicates that people typically make large purchases when they go shopping.
-
-![Cluster 1](data/plots/Cluster1.jpeg)
-
-### Cluster 2
-Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
-
-- Consumers in this cluster typically make fewer purchases and spend less money overall.
-- The very high Day_of_Week number suggests that they have a slight inclination to shop on the weekends.
-- Their monthly spending variation is low (low Monthly_Spending_Std), and their spending trend is generally constant but on the lower side.
-- These customers have a low cancellation frequency and rate, indicating that they have not engaged in numerous cancellations.
-- When they do shop, they typically spend less each transaction, as seen by the lower average transaction value.
-
-
-![Cluster 1](data/plots/Cluster2.jpeg)
-
-## Customer RFM Trends based on Clusters
-
-![Customer Trends Histogram](data/plots/histogram_analysis.png)
