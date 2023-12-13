@@ -48,7 +48,7 @@ def predict_custom_trained_model(
 
 predict_custom_trained_model(
     project="1002663879452",
-    endpoint_id="2090611409053286400",
+    endpoint_id="3665182428772696064",
     location="us-east1",
     instances= {
 
