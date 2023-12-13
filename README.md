@@ -266,7 +266,7 @@ In managing models for Staging, Production, and Archiving, we rely on MLflow.
 
 # Cost Analysis
 
-Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform hosting on US East1
+Breakdown of the costs associated with the Machine Learning pipeline on Google Cloud Platform (GCP) hosted on US East1 Region.
 
 ## Initial Cost Analysis
 
