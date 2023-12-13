@@ -309,6 +309,15 @@ Profile: Sporadic Shoppers with a Proclivity for Weekend Shopping
 
 ![Customer Trends Histogram](data/plots/histogram_analysis.png)
 
+<hr>
+
+# Monitoring
+
+![Monitoring Dashboard](assets/Model_Monitoring_Graph.png)
+
+We create a Monitoring Dashboard to monitor the extend of data or concept drift (if any). We use BigQuery to capture input values of features, the predicted cluster and timstamp. We also calculate and store important metrics like Latency between prediction. 
+
+View the multipage dashbord on [Looker](https://lookerstudio.google.com/s/tsXALSpVJ3w)
 
 <hr> 
 
