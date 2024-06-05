@@ -11,17 +11,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     name: Run lint Tests
+    runs-on: ubuntu-latest
     concurrency:
       group: Run lint Tests
       cancel-in-progress: true
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
@@ -38,7 +38,7 @@ jobs:
 
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: pytest-results
         path: pytest-report.xml
