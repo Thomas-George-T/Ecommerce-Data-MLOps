@@ -12,6 +12,7 @@ disable=
    duplicate-code,
    pointless-statement,
    possibly-used-before-assignment,
+   used-before-assignment,
 
 [BASIC]
 
